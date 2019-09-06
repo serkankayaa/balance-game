@@ -1,0 +1,10 @@
+.container {
+    background-color: bisque;
+    height: 600px;
+}
+
+.gamePanel {
+    height: 600px;
+    background-color: bisque;
+    border: aliceblue;
+}
