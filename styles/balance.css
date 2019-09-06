@@ -16,3 +16,19 @@
     position: absolute;
     margin-top: 60px;
 }
+
+.circle {
+    background-image: url("../img/balance.png");
+    background-repeat: no-repeat;
+    height: 105px;
+    width: 120px;
+    background-position: -5px -2px;
+}
+
+.triangle {
+    background-image: url("../img/balance.png");
+    background-repeat: no-repeat;
+    height: 30px;
+    width: 30px;
+    background-position: -15px -305px;
+}
