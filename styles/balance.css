@@ -8,3 +8,11 @@
     background-color: bisque;
     border: aliceblue;
 }
+
+.line {
+    width: 112px;
+    height: 47px;
+    border-left: 1px solid black;
+    position: absolute;
+    margin-top: 60px;
+}
