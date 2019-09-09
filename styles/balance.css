@@ -73,7 +73,7 @@
     transform: scale(0.8);
 }
 
-.circleShape {
+#circleShape {
     height: 25px;
     width: 25px;
     background-color: cornflowerblue;
@@ -81,13 +81,13 @@
     display: inline-block;
 }
 
-.squareShape {
+#squareShape {
     width: 25px;
     height: 25px;
     background-color: cadetblue;
 }
 
-.triangleShape {
+#triangleShape {
     width: 0;
     height: 0;
     border-left: 15px solid transparent;
