@@ -138,6 +138,8 @@ $(document).ready(function () {
                 $(ropeRightLines[i]).height(getRightLineHeight);
                 $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
             }
+
+            // TODO: sağ kutuların kontrolü yapılacak.
         }
     }
 
