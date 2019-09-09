@@ -51,11 +51,10 @@ $(document).ready(function () {
             rightBoxes.sort();
         });
 
-        shapeHtml += `<div class="row shapes">
-        <div class="col circles"></div>
-        <div class="col squares"></div>
-        <div class="col triangles"></div>
-        </div>`;
+        shapeHtml += "<div class='row shapes'>";
+        shapeHtml += "<div class='col circles'></div>";
+        shapeHtml += "<div class='col squares'></div>";
+        shapeHtml += "<div class='col triangles'></div></div>";
 
         $(".bln").append(shapeHtml);
 
