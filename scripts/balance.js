@@ -19,13 +19,13 @@ $(document).ready(function () {
 
         for (var i = 0; i < balanceCount; i++) {
             balanceHtml = "<div class='col blnCol'>";
-            balanceHtml += `<div id='balance${i}' class='blnShape'>`;
-            balanceHtml += `<div class="hanger"></div>
-            <div class="pendulum" id='pendulum${i}'></div>
-            <div class="ropeLeft" id='ropeLeft${i}'></div>
-            <div class="ropeRight" id='ropeRight${i}'></div>
-            <div class="boxLeft" id='boxLeft${i}'></div>
-            <div class="boxRight" id='boxRight${i}'></div></div></div>`;
+            balanceHtml += "<div id='balance" + i + "' class='blnShape'>";
+            balanceHtml += "<div class='hanger'></div>";
+            balanceHtml += "<div class='pendulum' id='pendulum" + i + "'></div>";
+            balanceHtml += "<div class='ropeLeft' id = 'ropeLeft" + i + "'></div >";
+            balanceHtml += "<div class='ropeRight' id='ropeRight" + i + "'></div>";
+            balanceHtml += "<div class='boxLeft' id='boxLeft" + i + "'></div>";
+            balanceHtml += "<div class='boxRight' id='boxRight" + i + "'></div></div ></div >";
 
             $(".bln").append(balanceHtml);
         }
