@@ -9,26 +9,88 @@
     border: aliceblue;
 }
 
-.line {
-    width: 112px;
-    height: 47px;
-    border-left: 1px solid black;
+/* Sol İp */
+.ropeLeft {
+    height: 120px;
+    border-left: 2px solid gray;
     position: absolute;
-    margin-top: 60px;
+    margin-top: 70px;
+    margin-left: 3px;
 }
 
-.circle {
-    background-image: url("../img/balance.png");
+/* Sağ İp */
+.ropeRight {
+    height: 120px;
+    border-left: 2px solid gray;
+    position: absolute;
+    margin-top: 70px;
+    margin-left: 105px;
+}
+
+/* Yuvalarlak Tutucu */
+.pendulum {
+    background-image: url(../img/balance.png);
     background-repeat: no-repeat;
     height: 105px;
-    width: 120px;
-    background-position: -5px -2px;
+    width: 110px;
+    background-position: -4px -31px;
+    margin-top: 14px;
+    position: absolute;
 }
 
-.triangle {
-    background-image: url("../img/balance.png");
+/* Üçgen Tutucu */
+.hanger {
+    background-image: url(../img/balance.png);
     background-repeat: no-repeat;
-    height: 30px;
-    width: 30px;
-    background-position: -15px -305px;
+    height: 21px;
+    width: 21px;
+    background-position: -5px -5px;
+    position: absolute;
+    margin-left: 43px;
+}
+
+.boxLeft {
+    background-image: url(../img/balance.png);
+    background-repeat: no-repeat;
+    height: 82px;
+    width: 82px;
+    background-position: -19px -135px;
+    position: absolute;
+    margin-top: 180px;
+    left: -21px;
+    transform: scale(0.8);
+}
+
+.boxRight {
+    background-image: url(../img/balance.png);
+    background-repeat: no-repeat;
+    height: 82px;
+    width: 82px;
+    background-position: -19px -135px;
+    position: absolute;
+    margin-top: 180px;
+    margin-left: 65px;
+    transform: scale(0.8);
+}
+
+.circleShape {
+    height: 25px;
+    width: 25px;
+    background-color: cornflowerblue;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.squareShape {
+    width: 25px;
+    height: 25px;
+    background-color: cadetblue;
+}
+
+.triangleShape {
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid indianred;
 }
