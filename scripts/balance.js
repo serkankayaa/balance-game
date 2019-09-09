@@ -103,7 +103,9 @@ $(document).ready(function () {
         var shapeId = "circleShape"
 
         for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            // shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            shapeHtml = "<div id='" + shapeId + "' value='"+ value +"' class='seatedShape'></div>";
+
             $(boxId).append(shapeHtml);
 
             $("#" + shapeId).offset({ top: shapeY, left: shapeX });
@@ -116,7 +118,8 @@ $(document).ready(function () {
         var shapeId = "squareShape";
 
         for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            shapeHtml = "<div id='" + shapeId + "' value='"+ value +"' class='seatedShape'></div>";
+
             $(boxId).append(shapeHtml);
 
             $("#" + shapeId).offset({ top: shapeY, left: shapeX });
@@ -129,12 +132,12 @@ $(document).ready(function () {
         var shapeId = "triangleShape";
 
         for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            shapeHtml = "<div id='" + shapeId + "' value='"+ value +"' class='seatedShape'></div>";
+
             $(boxId).append(shapeHtml);
+
             $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-            $("#" + shapeId).css({
-                'position': 'static',
-            });
+            $("#" + shapeId).css('position', 'static');
         }
     }
 
