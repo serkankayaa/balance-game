@@ -85,6 +85,7 @@
     width: 25px;
     height: 25px;
     background-color: cadetblue;
+    display: inline-block;
 }
 
 #triangleShape {
@@ -93,4 +94,5 @@
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-bottom: 25px solid indianred;
+    display: inline-block;
 }

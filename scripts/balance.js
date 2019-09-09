@@ -1,13 +1,19 @@
 $(document).ready(function () {
-    var balances = [];
     var game = game1;
+    var balanceCount = game.balanceCount;
     var shapeCount = 5;
+    var circleValue = 2;
+    var triangleValue = 3;
+    var squareValue = 5;
+
+    var balances = [];
+    var leftBoxes = [];
+    var rightBoxes = [];
 
     prepareBalances(game);
     addStyles();
 
     function prepareBalances(game) {
-        var balanceCount = game.leftChamber.length;
         var balanceHtml = "";
         var shapeHtml = "";
 
@@ -15,11 +21,11 @@ $(document).ready(function () {
             balanceHtml = "<div class='col blnCol'>";
             balanceHtml += `<div id='balance${i}' class='blnShape'>`;
             balanceHtml += `<div class="hanger"></div>
-            <div class="pendulum"></div>
-            <div class="ropeLeft"></div>
-            <div class="ropeRight"></div>
-            <div class="boxLeft"></div>
-            <div class="boxRight"></div></div></div>`;
+            <div class="pendulum" id='pendulum${i}'></div>
+            <div class="ropeLeft" id='ropeLeft${i}'></div>
+            <div class="ropeRight" id='ropeRight${i}'></div>
+            <div class="boxLeft" id='boxLeft${i}'></div>
+            <div class="boxRight" id='boxRight${i}'></div></div></div>`;
 
             $(".bln").append(balanceHtml);
         }
@@ -31,6 +37,20 @@ $(document).ready(function () {
             balances.sort();
         });
 
+        $(".boxLeft").each(function () {
+            var leftBoxId = ($(this).attr("id"));
+
+            leftBoxes.push("#" + leftBoxId);
+            leftBoxes.sort();
+        });
+
+        $(".boxRight").each(function () {
+            var rightBoxId = ($(this).attr("id"));
+
+            rightBoxes.push("#" + rightBoxId);
+            rightBoxes.sort();
+        });
+
         shapeHtml += `<div class="row shapes">
         <div class="col circles"></div>
         <div class="col squares"></div>
@@ -39,9 +59,21 @@ $(document).ready(function () {
 
         $(".bln").append(shapeHtml);
 
-        prepareCircle(shapeCount, game1.circleValue);
-        prepareSquare(shapeCount, game1.rectValue);
-        prepareTriangle(shapeCount, game1.rectValue);
+        prepareCircle(shapeCount, circleValue);
+        prepareSquare(shapeCount, squareValue);
+        prepareTriangle(shapeCount, triangleValue);
+
+        for (let i = 0; i < balanceCount; i++) {
+            //seated left boxes
+            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, triangleValue, $(leftBoxes[i]));
+            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, squareValue, $(leftBoxes[i]));
+            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, circleValue, $(leftBoxes[i]));
+
+            //seated right boxes
+            seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, triangleValue, $(rightBoxes[i]));
+            seatedSquare(game.rightBox[i].rectCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, squareValue, $(rightBoxes[i]));
+            seatedCircle(game.rightBox[i].circleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, circleValue, $(rightBoxes[i]));
+        }
     }
 
     $(".dragShape").draggable({
@@ -55,8 +87,56 @@ $(document).ready(function () {
     function addStyles() {
         $('.shapes').css({
             'margin-top': '20%',
-            'margin-right' : '4px',
+            'margin-right': '4px',
         });
+
+        $('.boxLeft > div').css({
+            'transform': 'scale(0.7)',
+        });
+
+        $('.boxRight > div').css({
+            'transform': 'scale(0.7)',
+        });
+    }
+
+    function seatedCircle(shapeCount, shapeX, shapeY, value, boxId) {
+        var shapeHtml = "";
+        var shapeId = "circleShape"
+
+        for (let i = 0; i < shapeCount; i++) {
+            shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            $(boxId).append(shapeHtml);
+
+            $("#" + shapeId).offset({ top: shapeY, left: shapeX });
+            $("#" + shapeId).css('position', 'static');
+        }
+    }
+
+    function seatedSquare(shapeCount, shapeX, shapeY, value, boxId) {
+        var shapeHtml = "";
+        var shapeId = "squareShape";
+
+        for (let i = 0; i < shapeCount; i++) {
+            shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            $(boxId).append(shapeHtml);
+
+            $("#" + shapeId).offset({ top: shapeY, left: shapeX });
+            $("#" + shapeId).css('position', 'static');
+        }
+    }
+
+    function seatedTriangle(shapeCount, shapeX, shapeY, value, boxId) {
+        var shapeHtml = "";
+        var shapeId = "triangleShape";
+
+        for (let i = 0; i < shapeCount; i++) {
+            shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
+            $(boxId).append(shapeHtml);
+            $("#" + shapeId).offset({ top: shapeY, left: shapeX });
+            $("#" + shapeId).css({
+                'position': 'static',
+            });
+        }
     }
 
     function prepareCircle(shapeCount, value) {
