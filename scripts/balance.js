@@ -9,9 +9,19 @@ $(document).ready(function () {
     var balances = [];
     var leftBoxes = [];
     var rightBoxes = [];
+    var ropeLeftLines = [];
+    var ropeRightLines = [];
 
     prepareBalances(game);
     addStyles();
+
+    $(".dragShape").draggable({
+        containment: 'window',
+        stack: '.dragShape',
+        snap: '.boxLeft, .boxRight',
+        snapMode: 'inner',
+        snapTolerance: 10,
+    });
 
     function prepareBalances(game) {
         var balanceHtml = "";
@@ -51,6 +61,20 @@ $(document).ready(function () {
             rightBoxes.sort();
         });
 
+        $(".ropeLeft").each(function () {
+            var ropeLeftId = ($(this).attr("id"));
+
+            ropeLeftLines.push("#" + ropeLeftId);
+            ropeLeftLines.sort();
+        });
+
+        $(".ropeRight").each(function () {
+            var ropeRightId = ($(this).attr("id"));
+
+            ropeRightLines.push("#" + ropeRightId);
+            ropeRightLines.sort();
+        });
+
         shapeHtml += "<div class='row shapes'>";
         shapeHtml += "<div class='col circles'></div>";
         shapeHtml += "<div class='col squares'></div>";
@@ -72,16 +96,50 @@ $(document).ready(function () {
             seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, triangleValue, $(rightBoxes[i]));
             seatedSquare(game.rightBox[i].rectCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, squareValue, $(rightBoxes[i]));
             seatedCircle(game.rightBox[i].circleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, circleValue, $(rightBoxes[i]));
+
+            var leftValue = 0;
+            var rightValue = 0;
+            var difference = 0;
+            var checkLeftGrater = false;
+            var checkRightGrater = false;
+
+            $(leftBoxes[i]).children().each(function () {
+                leftValue += parseInt($(this).attr('value'));
+            });
+
+            $(rightBoxes[i]).children().each(function () {
+                rightValue += parseInt($(this).attr('value'));
+            });
+
+            difference = leftValue - rightValue;
+
+            if (difference > 0) {
+                checkLeftGrater = true;
+            }
+            else {
+                checkRightGrater = true;
+            }
+
+            if (checkLeftGrater) {
+                var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
+                var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
+
+                var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
+                var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
+
+                getLeftLineHeight += difference * 2;
+                getLeftBoxHeight += difference * 2;
+                getRightBoxHeight -= difference *2;
+
+                $(ropeLeftLines[i]).height(getLeftLineHeight);
+                $(leftBoxes[i]).css('margin-top', getLeftBoxHeight);
+
+                getRightLineHeight -= difference * 2;
+                $(ropeRightLines[i]).height(getRightLineHeight);
+                $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
+            }
         }
     }
-
-    $(".dragShape").draggable({
-        containment: 'window',
-        stack: '.dragShape',
-        snap: '.boxLeft, .boxRight',
-        snapMode: 'inner',
-        snapTolerance: 10,
-    });
 
     function addStyles() {
         $('.shapes').css({
@@ -103,8 +161,7 @@ $(document).ready(function () {
         var shapeId = "circleShape"
 
         for (let i = 0; i < shapeCount; i++) {
-            // shapeHtml = `<div id=${shapeId} value=${value} class="seatedShape"></div>`;
-            shapeHtml = "<div id='" + shapeId + "' value='"+ value +"' class='seatedShape'></div>";
+            shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
 
             $(boxId).append(shapeHtml);
 
@@ -118,7 +175,7 @@ $(document).ready(function () {
         var shapeId = "squareShape";
 
         for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = "<div id='" + shapeId + "' value='"+ value +"' class='seatedShape'></div>";
+            shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
 
             $(boxId).append(shapeHtml);
 
@@ -132,7 +189,7 @@ $(document).ready(function () {
         var shapeId = "triangleShape";
 
         for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = "<div id='" + shapeId + "' value='"+ value +"' class='seatedShape'></div>";
+            shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
 
             $(boxId).append(shapeHtml);
 
