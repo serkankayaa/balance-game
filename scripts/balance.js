@@ -147,46 +147,56 @@ $(document).ready(function () {
                 animateHeight($(ropeRightLines[i]), getRightLineHeight);
             }
         }
-    }
 
-    $(".dragShape").draggable({
-        containment: 'window',
-        stack: '.dragShape',
-        snap: '.boxLeft, .boxRight',
-        snapMode: 'inner',
-        snapTolerance: 10,
-    });
+        $(".dragShape").draggable({
+            containment: 'window',
+            stack: '.dragShape',
+            snap: '',
+            snapMode: '',
+            snapTolerance: 0,
+        });
+    }
 
     $(".blnTarget > .blnCol > .blnShape > .boxRight").droppable({
         drop: function (event, ui) {
             var seatedShape = ui.draggable;
             var lastIndex = balanceCount - 1;
+            var seatedShapeClass = ".blnTarget > .blnCol > .blnShape > .boxRight > .seatedShape";
 
             if (seatedShape.attr('id') == 'circleShape') {
                 seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.circleValue, $(rightBoxes[lastIndex]));
                 seatedShape.remove();
                 calculateWeight(lastIndex);
-                $('.seatedShape').css({
+                $(seatedShapeClass).css({
                     'transform': 'scale(0.7)',
                 });
+
+                $(seatedShapeClass).hide();
+                $(seatedShapeClass).toggle("bounce");
             }
 
             if (seatedShape.attr('id') == 'squareShape') {
                 seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.squareValue, $(rightBoxes[lastIndex]));
                 seatedShape.remove();
                 calculateWeight(lastIndex);
-                $('.seatedShape').css({
+                $(seatedShapeClass).css({
                     'transform': 'scale(0.7)',
                 });
+
+                $(seatedShapeClass).hide();
+                $(seatedShapeClass).toggle("bounce");
             }
 
             if (seatedShape.attr('id') == 'triangleShape') {
                 seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.triangleValue, $(rightBoxes[lastIndex]));
                 seatedShape.remove();
                 calculateWeight(lastIndex);
-                $('.seatedShape').css({
+                $(seatedShapeClass).css({
                     'transform': 'scale(0.7)',
                 });
+
+                $(seatedShapeClass).hide();
+                $(seatedShapeClass).toggle("bounce");
             }
         }
     });
@@ -295,11 +305,7 @@ $(document).ready(function () {
             'margin-left': '100%',
         });
 
-        $('.boxLeft > div').css({
-            'transform': 'scale(0.7)',
-        });
-
-        $('.boxRight > div').css({
+        $('.seatedShape').css({
             'transform': 'scale(0.7)',
         });
     }
