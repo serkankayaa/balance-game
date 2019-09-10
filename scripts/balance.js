@@ -11,14 +11,6 @@ $(document).ready(function () {
     prepareBalances(game);
     addStyles();
 
-    $(".dragShape").draggable({
-        containment: 'window',
-        stack: '.dragShape',
-        snap: '.boxLeft, .boxRight',
-        snapMode: 'inner',
-        snapTolerance: 10,
-    });
-
     function prepareBalances(game) {
         var balanceHtml = "";
         var targetBalanceHtml = "";
@@ -124,10 +116,10 @@ $(document).ready(function () {
                 var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
                 var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-                getLeftLineHeight += difference * 3;
-                getLeftBoxHeight += difference * 3;
-                getRightBoxHeight -= difference * 3;
-                getRightLineHeight -= difference * 3;
+                getLeftLineHeight += difference * 4;
+                getLeftBoxHeight += difference * 4;
+                getRightBoxHeight -= difference * 4;
+                getRightLineHeight -= difference * 4;
 
                 animateMargin($(leftBoxes[i]), getLeftBoxHeight);
                 animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
@@ -143,10 +135,10 @@ $(document).ready(function () {
                 var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
                 var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-                getLeftLineHeight -= difference * 3;
-                getLeftBoxHeight -= difference * 3;
-                getRightBoxHeight += difference * 3;
-                getRightLineHeight += difference * 3;
+                getLeftLineHeight += difference * 4;
+                getLeftBoxHeight += difference * 4;
+                getRightBoxHeight -= difference * 4;
+                getRightLineHeight -= difference * 4;
 
                 animateMargin($(leftBoxes[i]), getLeftBoxHeight);
                 animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
@@ -154,6 +146,115 @@ $(document).ready(function () {
                 animateMargin($(rightBoxes[i]), getRightBoxHeight);
                 animateHeight($(ropeRightLines[i]), getRightLineHeight);
             }
+        }
+    }
+
+    $(".dragShape").draggable({
+        containment: 'window',
+        stack: '.dragShape',
+        snap: '.boxLeft, .boxRight',
+        snapMode: 'inner',
+        snapTolerance: 10,
+    });
+
+    $(".blnTarget > .blnCol > .blnShape > .boxRight").droppable({
+        drop: function (event, ui) {
+            var seatedShape = ui.draggable;
+            var lastIndex = balanceCount - 1;
+
+            if (seatedShape.attr('id') == 'circleShape') {
+                seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.circleValue, $(rightBoxes[lastIndex]));
+                seatedShape.remove();
+                calculateWeight(lastIndex);
+                $('.seatedShape').css({
+                    'transform': 'scale(0.7)',
+                });
+            }
+
+            if (seatedShape.attr('id') == 'squareShape') {
+                seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.squareValue, $(rightBoxes[lastIndex]));
+                seatedShape.remove();
+                calculateWeight(lastIndex);
+                $('.seatedShape').css({
+                    'transform': 'scale(0.7)',
+                });
+            }
+
+            if (seatedShape.attr('id') == 'triangleShape') {
+                seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.triangleValue, $(rightBoxes[lastIndex]));
+                seatedShape.remove();
+                calculateWeight(lastIndex);
+                $('.seatedShape').css({
+                    'transform': 'scale(0.7)',
+                });
+            }
+        }
+    });
+
+    function calculateWeight(balanceIndex) {
+        var leftValue = 0;
+        var rightValue = 0;
+        var difference = 0;
+        var checkLeftBigger = false;
+        var checkRightBigger = false;
+
+        $(leftBoxes[balanceIndex]).children().each(function () {
+            leftValue += parseInt($(this).attr('value'));
+        });
+
+        $(rightBoxes[balanceIndex]).children().each(function () {
+            rightValue += parseInt($(this).attr('value'));
+        });
+
+        difference = leftValue - rightValue;
+
+        if (difference > 0) {
+            checkLeftBigger = true;
+        }
+        else {
+            checkRightBigger = true;
+        }
+
+        if (checkLeftBigger) {
+            var getLeftLineHeight = parseInt($(ropeLeftLines[balanceIndex]).height());
+            var getRightLineHeight = parseInt($(ropeRightLines[balanceIndex]).height());
+
+            var getLeftBoxHeight = parseInt($(leftBoxes[balanceIndex]).css('margin-top'));
+            var getRightBoxHeight = parseInt($(rightBoxes[balanceIndex]).css('margin-top'));
+
+            getLeftLineHeight -= difference * 4;
+            getLeftBoxHeight -= difference * 4;
+            getRightBoxHeight += difference * 4;
+            getRightLineHeight += difference * 4;
+
+            animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
+            animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
+
+            animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
+            animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
+        }
+
+        if (checkRightBigger) {
+            var getLeftLineHeight = parseInt($(ropeLeftLines[balanceIndex]).height());
+            var getRightLineHeight = parseInt($(ropeRightLines[balanceIndex]).height());
+
+            var getLeftBoxHeight = parseInt($(leftBoxes[balanceIndex]).css('margin-top'));
+            var getRightBoxHeight = parseInt($(rightBoxes[balanceIndex]).css('margin-top'));
+
+            if (balanceIndex == game.balanceCount - 1) {
+                difference = Math.abs(difference);
+            }
+
+            getLeftLineHeight -= difference * 4;
+            getLeftBoxHeight -= difference * 4;
+            getRightBoxHeight += difference * 4;
+            getRightLineHeight += difference * 4;
+
+            animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
+            animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
+
+            animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
+            animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
         }
     }
 
@@ -206,7 +307,7 @@ $(document).ready(function () {
     function seatedCircle(shapeCount, shapeX, shapeY, value, boxId) {
         if (shapeCount != 0) {
             var shapeHtml = "";
-            var shapeId = "circleShape"
+            var shapeId = "circleShape";
 
             for (let i = 0; i < shapeCount; i++) {
                 shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
@@ -214,7 +315,9 @@ $(document).ready(function () {
                 $(boxId).append(shapeHtml);
 
                 $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-                $("#" + shapeId).css('position', 'static');
+                $("#" + shapeId).css({
+                    'position': 'static',
+                });
             }
         }
     }
@@ -230,7 +333,9 @@ $(document).ready(function () {
                 $(boxId).append(shapeHtml);
 
                 $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-                $("#" + shapeId).css('position', 'static');
+                $("#" + shapeId).css({
+                    'position': 'static',
+                });
             }
         }
     }
@@ -246,7 +351,9 @@ $(document).ready(function () {
                 $(boxId).append(shapeHtml);
 
                 $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-                $("#" + shapeId).css('position', 'static');
+                $("#" + shapeId).css({
+                    'position': 'static',
+                });
             }
         }
     }
