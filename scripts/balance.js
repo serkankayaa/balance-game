@@ -100,8 +100,8 @@ $(document).ready(function () {
             var leftValue = 0;
             var rightValue = 0;
             var difference = 0;
-            var checkLeftGrater = false;
-            var checkRightGrater = false;
+            var checkLeftBigger = false;
+            var checkRightBigger = false;
 
             $(leftBoxes[i]).children().each(function () {
                 leftValue += parseInt($(this).attr('value'));
@@ -114,13 +114,13 @@ $(document).ready(function () {
             difference = leftValue - rightValue;
 
             if (difference > 0) {
-                checkLeftGrater = true;
+                checkLeftBigger = true;
             }
             else {
-                checkRightGrater = true;
+                checkRightBigger = true;
             }
 
-            if (checkLeftGrater) {
+            if (checkLeftBigger) {
                 var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
                 var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
 
@@ -129,18 +129,61 @@ $(document).ready(function () {
 
                 getLeftLineHeight += difference * 2;
                 getLeftBoxHeight += difference * 2;
-                getRightBoxHeight -= difference *2;
-
-                $(ropeLeftLines[i]).height(getLeftLineHeight);
-                $(leftBoxes[i]).css('margin-top', getLeftBoxHeight);
-
+                getRightBoxHeight -= difference * 2;
                 getRightLineHeight -= difference * 2;
-                $(ropeRightLines[i]).height(getRightLineHeight);
-                $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
+
+                animateMargin($(leftBoxes[i]), getLeftBoxHeight);
+                animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
+                // $(leftBoxes[i]).css('margin-top', getLeftBoxHeight);
+                // $(ropeLeftLines[i]).height(getLeftLineHeight);
+
+                animateMargin($(rightBoxes[i]), getRightBoxHeight);
+                animateHeight($(ropeRightLines[i]), getRightLineHeight);
+                // $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
+                // $(ropeRightLines[i]).height(getRightLineHeight);
             }
 
-            // TODO: sağ kutuların kontrolü yapılacak.
+            if (checkRightBigger) {
+                var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
+                var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
+
+                var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
+                var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
+
+                getLeftLineHeight -= difference * 2;
+                getLeftBoxHeight -= difference * 2;
+                getRightBoxHeight += difference * 2;
+                getRightLineHeight += difference * 2;
+
+                // $(ropeLeftLines[i]).height(getLeftLineHeight);
+                // $(leftBoxes[i]).css('margin-top', getLeftBoxHeight);
+
+                animateMargin($(leftBoxes[i]), getLeftBoxHeight);
+                animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
+
+                animateMargin($(rightBoxes[i]), getRightBoxHeight);
+                animateHeight($(ropeRightLines[i]), getRightLineHeight);
+
+                // $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
+                // $(ropeRightLines[i]).height(getRightLineHeight);
+            }
         }
+    }
+
+    function animateMargin(element, marginTopSize) {
+        $(element).animate({
+            marginTop: marginTopSize,
+        }, 1500, function () {
+            //animate completed
+        });
+    }
+
+    function animateHeight(element, heightSize) {
+        $(element).animate({
+            height: heightSize,
+        }, 1500, function () {
+            //animate completed
+        });
     }
 
     function addStyles() {
