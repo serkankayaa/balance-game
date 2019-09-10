@@ -286,6 +286,13 @@ $(document).ready(function () {
             marginTop: marginTopSize,
         }, gameObject.balanceSpeed, function () {
             //animate completed
+            $(".dragShape").draggable({
+                containment: 'window',
+                stack: '.dragShape',
+                snap: '',
+                snapMode: '',
+                snapTolerance: 0,
+            });
         });
     }
 
@@ -294,6 +301,13 @@ $(document).ready(function () {
             height: heightSize,
         }, gameObject.balanceSpeed, function () {
             //animate completed
+            $(".dragShape").draggable({
+                containment: 'window',
+                stack: '.dragShape',
+                snap: '',
+                snapMode: '',
+                snapTolerance: 0,
+            });
         });
     }
 
