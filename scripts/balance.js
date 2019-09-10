@@ -1,10 +1,6 @@
 $(document).ready(function () {
     var game = game1;
     var balanceCount = game.balanceCount;
-    var shapeCount = 5;
-    var circleValue = 2;
-    var triangleValue = 3;
-    var squareValue = 5;
 
     var balances = [];
     var leftBoxes = [];
@@ -83,20 +79,20 @@ $(document).ready(function () {
 
         $(".blnTarget").append(shapeHtml);
 
-        prepareCircle(shapeCount, circleValue);
-        prepareSquare(shapeCount, squareValue);
-        prepareTriangle(shapeCount, triangleValue);
+        prepareCircle(gameObject.maxShapeCount, gameObject.circleValue);
+        prepareSquare(gameObject.maxShapeCount, gameObject.squareValue);
+        prepareTriangle(gameObject.maxShapeCount, gameObject.triangleValue);
 
         for (let i = 0; i < balanceCount; i++) {
             //seated left boxes
-            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, triangleValue, $(leftBoxes[i]));
-            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, squareValue, $(leftBoxes[i]));
-            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, circleValue, $(leftBoxes[i]));
+            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, gameObject.triangleValue, $(leftBoxes[i]));
+            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, gameObject.squareValue, $(leftBoxes[i]));
+            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, gameObject.circleValue, $(leftBoxes[i]));
 
             //seated right boxes
-            seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, triangleValue, $(rightBoxes[i]));
-            seatedSquare(game.rightBox[i].rectCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, squareValue, $(rightBoxes[i]));
-            seatedCircle(game.rightBox[i].circleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, circleValue, $(rightBoxes[i]));
+            seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, gameObject.triangleValue, $(rightBoxes[i]));
+            seatedSquare(game.rightBox[i].rectCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, gameObject.squareValue, $(rightBoxes[i]));
+            seatedCircle(game.rightBox[i].circleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, gameObject.circleValue, $(rightBoxes[i]));
 
             var leftValue = 0;
             var rightValue = 0;
@@ -128,10 +124,10 @@ $(document).ready(function () {
                 var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
                 var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-                getLeftLineHeight += difference * 2;
-                getLeftBoxHeight += difference * 2;
-                getRightBoxHeight -= difference * 2;
-                getRightLineHeight -= difference * 2;
+                getLeftLineHeight += difference * 3;
+                getLeftBoxHeight += difference * 3;
+                getRightBoxHeight -= difference * 3;
+                getRightLineHeight -= difference * 3;
 
                 animateMargin($(leftBoxes[i]), getLeftBoxHeight);
                 animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
@@ -147,10 +143,10 @@ $(document).ready(function () {
                 var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
                 var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-                getLeftLineHeight -= difference * 2;
-                getLeftBoxHeight -= difference * 2;
-                getRightBoxHeight += difference * 2;
-                getRightLineHeight += difference * 2;
+                getLeftLineHeight -= difference * 3;
+                getLeftBoxHeight -= difference * 3;
+                getRightBoxHeight += difference * 3;
+                getRightLineHeight += difference * 3;
 
                 animateMargin($(leftBoxes[i]), getLeftBoxHeight);
                 animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
@@ -177,7 +173,7 @@ $(document).ready(function () {
     function animateMargin(element, marginTopSize) {
         $(element).animate({
             marginTop: marginTopSize,
-        }, 1000, function () {
+        }, gameObject.balanceSpeed, function () {
             //animate completed
         });
     }
@@ -185,7 +181,7 @@ $(document).ready(function () {
     function animateHeight(element, heightSize) {
         $(element).animate({
             height: heightSize,
-        }, 1000, function () {
+        }, gameObject.balanceSpeed, function () {
             //animate completed
         });
     }
@@ -208,44 +204,50 @@ $(document).ready(function () {
     }
 
     function seatedCircle(shapeCount, shapeX, shapeY, value, boxId) {
-        var shapeHtml = "";
-        var shapeId = "circleShape"
+        if (shapeCount != 0) {
+            var shapeHtml = "";
+            var shapeId = "circleShape"
 
-        for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
+            for (let i = 0; i < shapeCount; i++) {
+                shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
 
-            $(boxId).append(shapeHtml);
+                $(boxId).append(shapeHtml);
 
-            $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-            $("#" + shapeId).css('position', 'static');
+                $("#" + shapeId).offset({ top: shapeY, left: shapeX });
+                $("#" + shapeId).css('position', 'static');
+            }
         }
     }
 
     function seatedSquare(shapeCount, shapeX, shapeY, value, boxId) {
-        var shapeHtml = "";
-        var shapeId = "squareShape";
+        if (shapeCount != 0) {
+            var shapeHtml = "";
+            var shapeId = "squareShape";
 
-        for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
+            for (let i = 0; i < shapeCount; i++) {
+                shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
 
-            $(boxId).append(shapeHtml);
+                $(boxId).append(shapeHtml);
 
-            $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-            $("#" + shapeId).css('position', 'static');
+                $("#" + shapeId).offset({ top: shapeY, left: shapeX });
+                $("#" + shapeId).css('position', 'static');
+            }
         }
     }
 
     function seatedTriangle(shapeCount, shapeX, shapeY, value, boxId) {
-        var shapeHtml = "";
-        var shapeId = "triangleShape";
+        if (shapeCount != 0) {
+            var shapeHtml = "";
+            var shapeId = "triangleShape";
 
-        for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
+            for (let i = 0; i < shapeCount; i++) {
+                shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
 
-            $(boxId).append(shapeHtml);
+                $(boxId).append(shapeHtml);
 
-            $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-            $("#" + shapeId).css('position', 'static');
+                $("#" + shapeId).offset({ top: shapeY, left: shapeX });
+                $("#" + shapeId).css('position', 'static');
+            }
         }
     }
 
