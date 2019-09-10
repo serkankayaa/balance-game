@@ -25,19 +25,20 @@ $(document).ready(function () {
 
     function prepareBalances(game) {
         var balanceHtml = "";
+        var targetBalanceHtml = "";
         var shapeHtml = "";
 
-        for (var i = 0; i < balanceCount; i++) {
-            balanceHtml = "<div class='col blnCol'>";
-            balanceHtml += "<div id='balance" + i + "' class='blnShape'>";
-            balanceHtml += "<div class='hanger'></div>";
-            balanceHtml += "<div class='pendulum' id='pendulum" + i + "'></div>";
-            balanceHtml += "<div class='ropeLeft' id = 'ropeLeft" + i + "'></div >";
-            balanceHtml += "<div class='ropeRight' id='ropeRight" + i + "'></div>";
-            balanceHtml += "<div class='boxLeft' id='boxLeft" + i + "'></div>";
-            balanceHtml += "<div class='boxRight' id='boxRight" + i + "'></div></div ></div >";
+        for (var balanceIndex = 0; balanceIndex < balanceCount; balanceIndex++) {
 
-            $(".bln").append(balanceHtml);
+            if (balanceIndex == balanceCount - 1) {
+                targetBalanceHtml = setBalances(targetBalanceHtml, balanceIndex);
+                $(".blnTarget").append(targetBalanceHtml);
+                $(".blnTarget").addClass('mx-auto');
+            }
+            else {
+                balanceHtml = setBalances(balanceHtml, balanceIndex);
+                $(".bln").append(balanceHtml);
+            }
         }
 
         $(".blnShape").each(function () {
@@ -75,12 +76,12 @@ $(document).ready(function () {
             ropeRightLines.sort();
         });
 
-        shapeHtml += "<div class='row shapes'>";
+        shapeHtml += "<div class='col shapes'>";
         shapeHtml += "<div class='col circles'></div>";
         shapeHtml += "<div class='col squares'></div>";
         shapeHtml += "<div class='col triangles'></div></div>";
 
-        $(".bln").append(shapeHtml);
+        $(".blnTarget").append(shapeHtml);
 
         prepareCircle(shapeCount, circleValue);
         prepareSquare(shapeCount, squareValue);
@@ -134,13 +135,9 @@ $(document).ready(function () {
 
                 animateMargin($(leftBoxes[i]), getLeftBoxHeight);
                 animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
-                // $(leftBoxes[i]).css('margin-top', getLeftBoxHeight);
-                // $(ropeLeftLines[i]).height(getLeftLineHeight);
 
                 animateMargin($(rightBoxes[i]), getRightBoxHeight);
                 animateHeight($(ropeRightLines[i]), getRightLineHeight);
-                // $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
-                // $(ropeRightLines[i]).height(getRightLineHeight);
             }
 
             if (checkRightBigger) {
@@ -155,25 +152,32 @@ $(document).ready(function () {
                 getRightBoxHeight += difference * 2;
                 getRightLineHeight += difference * 2;
 
-                // $(ropeLeftLines[i]).height(getLeftLineHeight);
-                // $(leftBoxes[i]).css('margin-top', getLeftBoxHeight);
-
                 animateMargin($(leftBoxes[i]), getLeftBoxHeight);
                 animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
 
                 animateMargin($(rightBoxes[i]), getRightBoxHeight);
                 animateHeight($(ropeRightLines[i]), getRightLineHeight);
-
-                // $(rightBoxes[i]).css('margin-top', getRightBoxHeight);
-                // $(ropeRightLines[i]).height(getRightLineHeight);
             }
         }
+    }
+
+    function setBalances(balanceHtml, index) {
+        balanceHtml = "<div class='col blnCol'>";
+        balanceHtml += "<div id='balance" + index + "' class='blnShape'>";
+        balanceHtml += "<div class='hanger'></div>";
+        balanceHtml += "<div class='pendulum' id='pendulum" + index + "'></div>";
+        balanceHtml += "<div class='ropeLeft' id = 'ropeLeft" + index + "'></div >";
+        balanceHtml += "<div class='ropeRight' id='ropeRight" + index + "'></div>";
+        balanceHtml += "<div class='boxLeft' id='boxLeft" + index + "'></div>";
+        balanceHtml += "<div class='boxRight' id='boxRight" + index + "'></div></div ></div >";
+
+        return balanceHtml;
     }
 
     function animateMargin(element, marginTopSize) {
         $(element).animate({
             marginTop: marginTopSize,
-        }, 1500, function () {
+        }, 1000, function () {
             //animate completed
         });
     }
@@ -181,7 +185,7 @@ $(document).ready(function () {
     function animateHeight(element, heightSize) {
         $(element).animate({
             height: heightSize,
-        }, 1500, function () {
+        }, 1000, function () {
             //animate completed
         });
     }
@@ -190,6 +194,8 @@ $(document).ready(function () {
         $('.shapes').css({
             'margin-top': '20%',
             'margin-right': '4px',
+            'display': 'flex',
+            'margin-left': '100%',
         });
 
         $('.boxLeft > div').css({

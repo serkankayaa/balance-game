@@ -15,7 +15,7 @@
     border-left: 2px solid gray;
     position: absolute;
     margin-top: 70px;
-    margin-left: 3px;
+    margin-left: 11px;
 }
 
 /* Sağ İp */
@@ -24,7 +24,7 @@
     border-left: 2px solid gray;
     position: absolute;
     margin-top: 70px;
-    margin-left: 105px;
+    margin-left: 99px;
 }
 
 /* Yuvalarlak Tutucu */
@@ -36,6 +36,7 @@
     background-position: -4px -31px;
     margin-top: 14px;
     position: absolute;
+    transform: scale(0.85);
 }
 
 /* Üçgen Tutucu */
@@ -47,6 +48,7 @@
     background-position: -5px -5px;
     position: absolute;
     margin-left: 43px;
+    margin-top: 7px;
 }
 
 .boxLeft {
@@ -57,7 +59,7 @@
     background-position: -19px -135px;
     position: absolute;
     margin-top: 180px;
-    left: -21px;
+    left: -14px;
     transform: scale(0.8);
 }
 
@@ -69,7 +71,7 @@
     background-position: -19px -135px;
     position: absolute;
     margin-top: 180px;
-    margin-left: 65px;
+    margin-left: 60px;
     transform: scale(0.8);
 }
 
