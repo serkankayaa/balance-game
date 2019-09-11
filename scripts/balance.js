@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var game = game1;
     var balanceCount = game.balanceCount;
+    var checkComplete = false;
 
     var balances = [];
     var leftBoxes = [];
@@ -27,6 +28,8 @@ $(document).ready(function () {
                 balanceHtml = setBalances(balanceHtml, balanceIndex);
                 $(".bln").append(balanceHtml);
             }
+
+            checkFirstBalances = true;
         }
 
         $(".blnShape").each(function () {
@@ -89,8 +92,6 @@ $(document).ready(function () {
             var leftValue = 0;
             var rightValue = 0;
             var difference = 0;
-            var checkLeftBigger = false;
-            var checkRightBigger = false;
 
             $(leftBoxes[i]).children().each(function () {
                 leftValue += parseInt($(this).attr('value'));
@@ -102,50 +103,22 @@ $(document).ready(function () {
 
             difference = leftValue - rightValue;
 
-            if (difference > 0) {
-                checkLeftBigger = true;
-            }
-            else {
-                checkRightBigger = true;
-            }
+            var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
+            var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
 
-            if (checkLeftBigger) {
-                var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
-                var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
+            var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
+            var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-                var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
-                var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
+            getLeftLineHeight += difference * 4;
+            getLeftBoxHeight += difference * 4;
+            getRightBoxHeight -= difference * 4;
+            getRightLineHeight -= difference * 4;
 
-                getLeftLineHeight += difference * 4;
-                getLeftBoxHeight += difference * 4;
-                getRightBoxHeight -= difference * 4;
-                getRightLineHeight -= difference * 4;
+            animateMargin($(leftBoxes[i]), getLeftBoxHeight);
+            animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
 
-                animateMargin($(leftBoxes[i]), getLeftBoxHeight);
-                animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
-
-                animateMargin($(rightBoxes[i]), getRightBoxHeight);
-                animateHeight($(ropeRightLines[i]), getRightLineHeight);
-            }
-
-            if (checkRightBigger) {
-                var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
-                var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
-
-                var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
-                var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
-
-                getLeftLineHeight += difference * 4;
-                getLeftBoxHeight += difference * 4;
-                getRightBoxHeight -= difference * 4;
-                getRightLineHeight -= difference * 4;
-
-                animateMargin($(leftBoxes[i]), getLeftBoxHeight);
-                animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
-
-                animateMargin($(rightBoxes[i]), getRightBoxHeight);
-                animateHeight($(ropeRightLines[i]), getRightLineHeight);
-            }
+            animateMargin($(rightBoxes[i]), getRightBoxHeight);
+            animateHeight($(ropeRightLines[i]), getRightLineHeight);
         }
     }
 
@@ -153,45 +126,36 @@ $(document).ready(function () {
         drop: function (event, ui) {
             var seatedShape = ui.draggable;
             var lastIndex = balanceCount - 1;
-            var seatedShapeClass = ".blnTarget > .blnCol > .blnShape > .boxRight > .seatedShape";
 
             if (seatedShape.attr('id') == 'circleShape') {
                 seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.circleValue, $(rightBoxes[lastIndex]));
-                seatedShape.remove();
-                calculateWeight(lastIndex);
-                $(seatedShapeClass).css({
-                    'transform': 'scale(0.7)',
-                });
-
-                $(seatedShapeClass).hide();
-                $(seatedShapeClass).toggle("bounce");
+                completeShape(seatedShape, lastIndex);
             }
 
             if (seatedShape.attr('id') == 'squareShape') {
                 seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.squareValue, $(rightBoxes[lastIndex]));
-                seatedShape.remove();
-                calculateWeight(lastIndex);
-                $(seatedShapeClass).css({
-                    'transform': 'scale(0.7)',
-                });
-
-                $(seatedShapeClass).hide();
-                $(seatedShapeClass).toggle("bounce");
+                completeShape(seatedShape, lastIndex);
             }
 
             if (seatedShape.attr('id') == 'triangleShape') {
                 seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.triangleValue, $(rightBoxes[lastIndex]));
-                seatedShape.remove();
-                calculateWeight(lastIndex);
-                $(seatedShapeClass).css({
-                    'transform': 'scale(0.7)',
-                });
-
-                $(seatedShapeClass).hide();
-                $(seatedShapeClass).toggle("bounce");
+                completeShape(seatedShape, lastIndex);
             }
         }
     });
+
+    function completeShape(seatedShape, lastIndex) {
+        var seatedShapeClass = ".blnTarget > .blnCol > .blnShape > .boxRight > .seatedShape";
+
+        seatedShape.remove();
+        calculateWeight(lastIndex);
+        $(seatedShapeClass).css({
+            'transform': 'scale(0.7)',
+        });
+
+        $(seatedShapeClass).hide();
+        $(seatedShapeClass).toggle("bounce");
+    }
 
     function calculateWeight(balanceIndex) {
         var leftValue = 0;
@@ -210,20 +174,29 @@ $(document).ready(function () {
 
         difference = leftValue - rightValue;
 
+        var getLeftLineHeight = parseInt($(ropeLeftLines[balanceIndex]).height());
+        var getRightLineHeight = parseInt($(ropeRightLines[balanceIndex]).height());
+
+        var getLeftBoxHeight = parseInt($(leftBoxes[balanceIndex]).css('margin-top'));
+        var getRightBoxHeight = parseInt($(rightBoxes[balanceIndex]).css('margin-top'));
+
         if (difference > 0) {
             checkLeftBigger = true;
         }
-        else {
+        else if (difference < 0) {
             checkRightBigger = true;
+        }
+        else if (difference == 0) {
+            animateMargin($(rightBoxes[balanceIndex]), getLeftBoxHeight - gameObject.heightTolerance);
+            animateHeight($(ropeRightLines[balanceIndex]), getLeftLineHeight - gameObject.heightTolerance);
+
+            animateMargin($(leftBoxes[balanceIndex]), getRightBoxHeight + gameObject.heightTolerance);
+            animateHeight($(ropeLeftLines[balanceIndex]), getRightLineHeight + gameObject.heightTolerance);
+
+            checkComplete = true;
         }
 
         if (checkLeftBigger) {
-            var getLeftLineHeight = parseInt($(ropeLeftLines[balanceIndex]).height());
-            var getRightLineHeight = parseInt($(ropeRightLines[balanceIndex]).height());
-
-            var getLeftBoxHeight = parseInt($(leftBoxes[balanceIndex]).css('margin-top'));
-            var getRightBoxHeight = parseInt($(rightBoxes[balanceIndex]).css('margin-top'));
-
             getLeftLineHeight -= difference * 4;
             getLeftBoxHeight -= difference * 4;
             getRightBoxHeight += difference * 4;
@@ -237,12 +210,6 @@ $(document).ready(function () {
         }
 
         if (checkRightBigger) {
-            var getLeftLineHeight = parseInt($(ropeLeftLines[balanceIndex]).height());
-            var getRightLineHeight = parseInt($(ropeRightLines[balanceIndex]).height());
-
-            var getLeftBoxHeight = parseInt($(leftBoxes[balanceIndex]).css('margin-top'));
-            var getRightBoxHeight = parseInt($(rightBoxes[balanceIndex]).css('margin-top'));
-
             if (balanceIndex == game.balanceCount - 1) {
                 difference = Math.abs(difference);
             }
@@ -278,6 +245,13 @@ $(document).ready(function () {
             marginTop: marginTopSize,
         }, gameObject.balanceSpeed, function () {
             //animate completed
+            readyShapeToDrag = true;
+
+            if (checkComplete) {
+                alert("oyun bitti tebrikler");
+                return;
+            }
+
             $(".dragShape").draggable({
                 containment: 'window',
                 stack: '.dragShape',
@@ -295,6 +269,8 @@ $(document).ready(function () {
             height: heightSize,
         }, gameObject.balanceSpeed, function () {
             //animate completed
+            readyShapeToDrag = true;
+
             $(".dragShape").draggable({
                 containment: 'window',
                 stack: '.dragShape',
@@ -302,7 +278,7 @@ $(document).ready(function () {
                 snapMode: '',
                 snapTolerance: 0,
                 revert: true,
-                revertDuration: 900 
+                revertDuration: 900
             });
         });
     }

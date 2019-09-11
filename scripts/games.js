@@ -3,7 +3,8 @@ var gameObject = {
     circleValue: 2,
     squareValue: 5,
     maxShapeCount: 5,
-    balanceSpeed: 1000
+    balanceSpeed: 1000,
+    heightTolerance: 20,
 }
 
 var game1 = {
