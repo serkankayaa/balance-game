@@ -9,7 +9,6 @@
     border: aliceblue;
 }
 
-/* Sol İp */
 .ropeLeft {
     height: 120px;
     border-left: 2px solid gray;
@@ -18,7 +17,6 @@
     margin-left: 11px;
 }
 
-/* Sağ İp */
 .ropeRight {
     height: 120px;
     border-left: 2px solid gray;
@@ -27,7 +25,6 @@
     margin-left: 99px;
 }
 
-/* Yuvalarlak Tutucu */
 .pendulum {
     background-image: url(../img/balance.png);
     background-repeat: no-repeat;
@@ -39,7 +36,6 @@
     transform: scale(0.85);
 }
 
-/* Üçgen Tutucu */
 .hanger {
     background-image: url(../img/balance.png);
     background-repeat: no-repeat;
@@ -93,8 +89,8 @@
 #triangleShape {
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
     border-bottom: 25px solid indianred;
     display: inline-block;
 }

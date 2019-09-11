@@ -3,11 +3,15 @@ $(document).ready(function () {
     var balanceCount = game.balanceCount;
     var checkComplete = false;
 
+    //balance elements
     var balances = [];
     var leftBoxes = [];
     var rightBoxes = [];
     var ropeLeftLines = [];
     var ropeRightLines = [];
+
+    //seated shapes 
+    var seatedShapes = [];
 
     prepareBalances(game);
     addStyles();
@@ -119,6 +123,8 @@ $(document).ready(function () {
 
             animateMargin($(rightBoxes[i]), getRightBoxHeight);
             animateHeight($(ropeRightLines[i]), getRightLineHeight);
+
+            moveShape();
         }
     }
 
@@ -127,35 +133,35 @@ $(document).ready(function () {
             var seatedShape = ui.draggable;
             var lastIndex = balanceCount - 1;
 
+            if (seatedShapes.length == 9) {
+                alert("Daha fazla şekil koyamazsınız !");
+                return;
+            }
+
+            if($(ropeLeftLines[lastIndex]).height() == 0) {
+                alert("İpi koparttın. Artık oynanmaz !");                
+                return;
+            }
+
             if (seatedShape.attr('id') == 'circleShape') {
                 seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.circleValue, $(rightBoxes[lastIndex]));
                 completeShape(seatedShape, lastIndex);
+                seatedShapes.push(seatedShape);
             }
 
             if (seatedShape.attr('id') == 'squareShape') {
                 seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.squareValue, $(rightBoxes[lastIndex]));
                 completeShape(seatedShape, lastIndex);
+                seatedShapes.push(seatedShape);
             }
 
             if (seatedShape.attr('id') == 'triangleShape') {
                 seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.triangleValue, $(rightBoxes[lastIndex]));
                 completeShape(seatedShape, lastIndex);
+                seatedShapes.push(seatedShape);
             }
         }
     });
-
-    function completeShape(seatedShape, lastIndex) {
-        var seatedShapeClass = ".blnTarget > .blnCol > .blnShape > .boxRight > .seatedShape";
-
-        seatedShape.remove();
-        calculateWeight(lastIndex);
-        $(seatedShapeClass).css({
-            'transform': 'scale(0.7)',
-        });
-
-        $(seatedShapeClass).hide();
-        $(seatedShapeClass).toggle("bounce");
-    }
 
     function calculateWeight(balanceIndex) {
         var leftValue = 0;
@@ -187,11 +193,11 @@ $(document).ready(function () {
             checkRightBigger = true;
         }
         else if (difference == 0) {
-            animateMargin($(rightBoxes[balanceIndex]), getLeftBoxHeight - gameObject.heightTolerance);
-            animateHeight($(ropeRightLines[balanceIndex]), getLeftLineHeight - gameObject.heightTolerance);
+            animateMargin($(rightBoxes[balanceIndex]), getLeftBoxHeight - getLeftBoxHeight + getRightBoxHeight);
+            animateHeight($(ropeRightLines[balanceIndex]), getLeftLineHeight - getLeftLineHeight + getRightLineHeight);
 
-            animateMargin($(leftBoxes[balanceIndex]), getRightBoxHeight + gameObject.heightTolerance);
-            animateHeight($(ropeLeftLines[balanceIndex]), getRightLineHeight + gameObject.heightTolerance);
+            animateMargin($(leftBoxes[balanceIndex]), getRightBoxHeight);
+            animateHeight($(ropeLeftLines[balanceIndex]), getRightLineHeight);
 
             checkComplete = true;
         }
@@ -227,6 +233,29 @@ $(document).ready(function () {
         }
     }
 
+    function moveShape() {
+        $(".dragShape").draggable({
+            containment: 'window',
+            stack: '.dragShape',
+            revert: true,
+            revertDuration: 900
+        });
+    }
+
+    function completeShape(seatedShape, lastIndex) {
+        var seatedShapeClass = ".blnTarget > .blnCol > .blnShape > .boxRight > .seatedShape";
+
+        seatedShape.remove();
+        calculateWeight(lastIndex);
+
+        $(seatedShapeClass).css({
+            'transform': 'scale(0.7)',
+        });
+
+        $(seatedShapeClass).hide();
+        $(seatedShapeClass).toggle("bounce");
+    }
+
     function setBalances(balanceHtml, index) {
         balanceHtml = "<div class='col blnCol'>";
         balanceHtml += "<div id='balance" + index + "' class='blnShape'>";
@@ -252,15 +281,7 @@ $(document).ready(function () {
                 return;
             }
 
-            $(".dragShape").draggable({
-                containment: 'window',
-                stack: '.dragShape',
-                snap: '',
-                snapMode: '',
-                snapTolerance: 0,
-                revert: true,
-                revertDuration: 900
-            });
+            moveShape();
         });
     }
 
@@ -269,17 +290,6 @@ $(document).ready(function () {
             height: heightSize,
         }, gameObject.balanceSpeed, function () {
             //animate completed
-            readyShapeToDrag = true;
-
-            $(".dragShape").draggable({
-                containment: 'window',
-                stack: '.dragShape',
-                snap: '',
-                snapMode: '',
-                snapTolerance: 0,
-                revert: true,
-                revertDuration: 900
-            });
         });
     }
 
