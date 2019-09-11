@@ -32,12 +32,27 @@ var game2 = {
         { triangleCount: 1, rectCount: 2, circleCount: 0 },
         { triangleCount: 1, rectCount: 0, circleCount: 1 },
         { triangleCount: 0, rectCount: 1, circleCount: 1 },
-        { triangleCount: 0, rectCount: 0, circleCount: 0 },
+        { triangleCount: 2, rectCount: 1, circleCount: 0 },
     ],
     rightBox: [
         { triangleCount: 1, rectCount: 0, circleCount: 1 },
         { triangleCount: 1, rectCount: 1, circleCount: 0 },
         { triangleCount: 1, rectCount: 1, circleCount: 0 },
-        { triangleCount: 2, rectCount: 0, circleCount: 3 },
+        { triangleCount: 0, rectCount: 0, circleCount: 0 },
+    ],
+}
+
+var game3 = {
+    name: 'game3',
+    balanceCount: 3,
+    leftBox: [
+        { triangleCount: 1, rectCount: 2, circleCount: 0 },
+        { triangleCount: 1, rectCount: 0, circleCount: 1 },
+        { triangleCount: 0, rectCount: 1, circleCount: 1 },
+    ],
+    rightBox: [
+        { triangleCount: 1, rectCount: 0, circleCount: 1 },
+        { triangleCount: 1, rectCount: 1, circleCount: 0 },
+        { triangleCount: 0, rectCount: 0, circleCount: 0 },
     ],
 }
