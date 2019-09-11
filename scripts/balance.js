@@ -20,6 +20,7 @@ $(document).ready(function () {
     var game = game1;
     prepareBalances(game);
     addStyles();
+    moveShape();
     dropShape();
 
     function prepareBalances(game) {
@@ -155,6 +156,7 @@ $(document).ready(function () {
             animateHeight($(ropeRightLines[i]), getRightLineHeight);
         }
 
+        moveShape();
         dropShape();
     }
 
@@ -263,6 +265,8 @@ $(document).ready(function () {
             animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
             animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
         }
+
+        moveShape();
     }
 
     function moveShape() {
@@ -283,11 +287,13 @@ $(document).ready(function () {
         $(seatedShapeClass).css({
             'transform': 'scale(0.7)',
             'margin-left': '1.2px',
-            'margin-top': '2px',
+            'margin-top': '1px',
         });
 
         $(seatedShapeClass).hide();
         $(seatedShapeClass).toggle("bounce");
+
+        moveShape();
     }
 
     function setBalances(balanceHtml, index) {
@@ -315,6 +321,8 @@ $(document).ready(function () {
                 nextGame();
                 return;
             }
+
+            moveShape();
         });
     }
 
@@ -323,6 +331,7 @@ $(document).ready(function () {
             height: heightSize,
         }, gameObject.balanceSpeed, function () {
             //animate completed
+            moveShape();
         });
     }
 
@@ -351,6 +360,7 @@ $(document).ready(function () {
                 clearGame();
                 prepareBalances(game);
                 addStyles();
+                moveShape();
                 games.shift();
             }
         }
