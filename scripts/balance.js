@@ -147,14 +147,6 @@ $(document).ready(function () {
                 animateHeight($(ropeRightLines[i]), getRightLineHeight);
             }
         }
-
-        $(".dragShape").draggable({
-            containment: 'window',
-            stack: '.dragShape',
-            snap: '',
-            snapMode: '',
-            snapTolerance: 0,
-        });
     }
 
     $(".blnTarget > .blnCol > .blnShape > .boxRight").droppable({
@@ -292,6 +284,8 @@ $(document).ready(function () {
                 snap: '',
                 snapMode: '',
                 snapTolerance: 0,
+                revert: true,
+                revertDuration: 900
             });
         });
     }
@@ -307,6 +301,8 @@ $(document).ready(function () {
                 snap: '',
                 snapMode: '',
                 snapTolerance: 0,
+                revert: true,
+                revertDuration: 900 
             });
         });
     }
