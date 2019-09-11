@@ -79,28 +79,41 @@ $(document).ready(function () {
 
 
         shapeHtml += "<div class='col shapes'>";
-        shapeHtml += "<div class='col circles'></div>";
-        shapeHtml += "<div class='col squares'></div>";
-        shapeHtml += "<div class='col triangles'></div></div>";
 
         $(".blnTarget").append(shapeHtml);
 
-        prepareCircle(gameObject.maxShapeCount, gameObject.circleValue);
-        prepareSquare(gameObject.maxShapeCount, gameObject.squareValue);
-        prepareTriangle(gameObject.maxShapeCount, gameObject.triangleValue);
+        game.dragShapes.forEach(element => {
+            if (element == 'triangle') {
+                var a = "<div class='col triangles'></div></div>";
+                $(".shapes").append(a);
+                prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
+            }
+
+            if (element == 'square') {
+                var b = "<div class='col squares'></div>";
+                $(".shapes").append(b);
+                prepareSquare(gameObject.maxShapeCount, game.squareValue);
+            }
+
+            if (element == 'circle') {
+                var c = "<div class='col circles'></div>";
+                $(".shapes").append(c);
+                prepareCircle(gameObject.maxShapeCount, game.circleValue);
+            }
+        });
 
         moveShape();
 
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
-            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, gameObject.triangleValue, $(leftBoxes[i]));
-            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, gameObject.squareValue, $(leftBoxes[i]));
-            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, gameObject.circleValue, $(leftBoxes[i]));
+            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
+            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.squareValue, $(leftBoxes[i]));
+            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.circleValue, $(leftBoxes[i]));
 
             //seated right boxes
-            seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, gameObject.triangleValue, $(rightBoxes[i]));
-            seatedSquare(game.rightBox[i].rectCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, gameObject.squareValue, $(rightBoxes[i]));
-            seatedCircle(game.rightBox[i].circleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, gameObject.circleValue, $(rightBoxes[i]));
+            seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, game.triangleValue, $(rightBoxes[i]));
+            seatedSquare(game.rightBox[i].rectCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, game.squareValue, $(rightBoxes[i]));
+            seatedCircle(game.rightBox[i].circleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, game.circleValue, $(rightBoxes[i]));
 
             var leftValue = 0;
             var rightValue = 0;
@@ -122,10 +135,18 @@ $(document).ready(function () {
             var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
             var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-            getLeftLineHeight += difference * 4;
-            getLeftBoxHeight += difference * 4;
-            getRightBoxHeight -= difference * 4;
-            getRightLineHeight -= difference * 4;
+            if (i == game.balanceCount - 1) {
+                getLeftLineHeight += difference * 2.5;
+                getLeftBoxHeight += difference * 2.5;
+                getRightBoxHeight -= difference * 2.5;
+                getRightLineHeight -= difference * 2.5;
+            }
+            else {
+                getLeftLineHeight += difference * 4;
+                getLeftBoxHeight += difference * 4;
+                getRightBoxHeight -= difference * 4;
+                getRightLineHeight -= difference * 4;
+            }
 
             animateMargin($(leftBoxes[i]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
@@ -154,19 +175,19 @@ $(document).ready(function () {
                 }
 
                 if (seatedShape.attr('id') == 'circleShape') {
-                    seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.circleValue, $(rightBoxes[lastIndex]));
+                    seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.circleValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     seatedShapes.push(seatedShape);
                 }
 
                 if (seatedShape.attr('id') == 'squareShape') {
-                    seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.squareValue, $(rightBoxes[lastIndex]));
+                    seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.squareValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     seatedShapes.push(seatedShape);
                 }
 
                 if (seatedShape.attr('id') == 'triangleShape') {
-                    seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, gameObject.triangleValue, $(rightBoxes[lastIndex]));
+                    seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.triangleValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     seatedShapes.push(seatedShape);
                 }
@@ -214,10 +235,10 @@ $(document).ready(function () {
         }
 
         if (checkLeftBigger) {
-            getLeftLineHeight -= difference * 4;
-            getLeftBoxHeight -= difference * 4;
-            getRightBoxHeight += difference * 4;
-            getRightLineHeight += difference * 4;
+            getLeftLineHeight -= difference;
+            getLeftBoxHeight -= difference;
+            getRightBoxHeight += difference;
+            getRightLineHeight += difference;
 
             animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
@@ -231,10 +252,10 @@ $(document).ready(function () {
                 difference = Math.abs(difference);
             }
 
-            getLeftLineHeight -= difference * 4;
-            getLeftBoxHeight -= difference * 4;
-            getRightBoxHeight += difference * 4;
-            getRightLineHeight += difference * 4;
+            getLeftLineHeight -= difference;
+            getLeftBoxHeight -= difference;
+            getRightBoxHeight += difference;
+            getRightLineHeight += difference;
 
             animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
@@ -318,6 +339,12 @@ $(document).ready(function () {
     }
 
     function nextGame() {
+        if (checkComplete && games.length == 0) {
+            alert("Oyun bitti tebrikler");
+            clearGame();
+            return;
+        }
+
         for (let i = 0; i < games.length; i++) {
             if (checkComplete) {
                 game = games[i];
@@ -330,12 +357,32 @@ $(document).ready(function () {
     }
 
     function addStyles() {
-        $('.shapes').css({
-            'margin-top': '20%',
-            'margin-right': '4px',
-            'display': 'flex',
-            'margin-left': '100%',
-        });
+        if (game.dragShapes.length == 1) {
+            $('.shapes').css({
+                'margin-top': '20%',
+                'margin-right': '80px',
+                'display': 'flex',
+                'margin-left': '100%',
+            });
+        }
+
+        if (game.dragShapes.length == 2) {
+            $('.shapes').css({
+                'margin-top': '20%',
+                'margin-right': '50px',
+                'display': 'flex',
+                'margin-left': '100%',
+            });
+        }
+
+        if (game.dragShapes.length == 3) {
+            $('.shapes').css({
+                'margin-top': '20%',
+                'margin-right': '4px',
+                'display': 'flex',
+                'margin-left': '100%',
+            });
+        }
 
         $('.seatedShape').css({
             'transform': 'scale(0.7)',
