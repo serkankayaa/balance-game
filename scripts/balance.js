@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    var checkComplete = false;
-
     //all games
     var games = [];
     games.push(game2, game3);
@@ -15,6 +13,8 @@ $(document).ready(function () {
 
     //seated shapes 
     var seatedShapes = [];
+
+    var checkComplete = false;
 
     //first game load.
     var game = game1;

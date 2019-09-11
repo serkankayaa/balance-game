@@ -62,22 +62,3 @@ var game3 = {
         { triangleCount: 0, rectCount: 0, circleCount: 0 },
     ],
 }
-
-// var game4 = {
-//     name: 'game4',
-//     balanceCount: 3,
-//     dragShapes: [ 'circle', 'square'],
-//     triangleValue: 3,
-//     circleValue: 2,
-//     squareValue: 5,
-//     leftBox: [
-//         { triangleCount: 0, rectCount: 2, circleCount: 0 },
-//         { triangleCount: 3, rectCount: 0, circleCount: 0 },
-//         { triangleCount: 2, rectCount: 0, circleCount: 0 },
-//     ],
-//     rightBox: [
-//         { triangleCount: 3, rectCount: 0, circleCount: 0 },
-//         { triangleCount: 0, rectCount: 0, circleCount: 4 },
-//         { triangleCount: 0, rectCount: 0, circleCount: 0 },
-//     ],
-// }
