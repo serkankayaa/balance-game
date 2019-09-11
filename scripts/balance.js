@@ -138,8 +138,8 @@ $(document).ready(function () {
                 return;
             }
 
-            if($(ropeLeftLines[lastIndex]).height() == 0) {
-                alert("İpi koparttın. Artık oynanmaz !");                
+            if ($(ropeLeftLines[lastIndex]).height() == 0) {
+                alert("İpi koparttın. Artık oynanmaz !");
                 return;
             }
 
@@ -250,6 +250,8 @@ $(document).ready(function () {
 
         $(seatedShapeClass).css({
             'transform': 'scale(0.7)',
+            'margin-left': '1.2px',
+            'margin-top': '2px',
         });
 
         $(seatedShapeClass).hide();
@@ -303,6 +305,8 @@ $(document).ready(function () {
 
         $('.seatedShape').css({
             'transform': 'scale(0.7)',
+            'margin-left': '1.2px',
+            'margin-top': '2px',
         });
     }
 
