@@ -1,12 +1,24 @@
+body {
+    background-image: url("../img/game-background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    height: auto;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: 'cover';
+}
+
 .container {
-    background-color: bisque;
     height: 600px;
 }
 
 .gamePanel {
     height: 600px;
-    background-color: bisque;
     border: aliceblue;
+    position: relative;
+    background-color: inherit!important;
 }
 
 .ropeLeft {
