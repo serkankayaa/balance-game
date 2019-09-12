@@ -156,8 +156,35 @@ $(document).ready(function () {
             animateHeight($(ropeRightLines[i]), getRightLineHeight);
         }
 
+        alignBalances(balances);
         moveShape();
         dropShape();
+    }
+
+    function alignBalances(balances) {
+        if (balances.length == 3) {
+            $(balances[0]).parent().css({
+                'margin-left': '20%'
+            });
+        }
+
+        if (balances.length == 4) {
+            $(balances[0]).parent().css({
+                'margin-left': '10%'
+            });
+        }
+
+        if (balances.length == 5) {
+            $(balances[0]).parent().css({
+                'margin-left': '5%'
+            });
+        }
+
+        if (balances.length == 6) {
+            $(balances[0]).parent().css({
+                'margin-left': '1%'
+            });
+        }
     }
 
     function dropShape() {
