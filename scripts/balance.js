@@ -211,7 +211,7 @@ $(document).ready(function () {
                     return;
                 }
 
-                if (seatedShape.attr('id') == 'circleShape' && !droppingInsideBox) {
+                if (seatedShape.attr('id') == 'circleShape' && !droppingInsideBox && !extractShape) {
                     seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.circleValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     $(rightBoxes[game.balanceCount - 1]).children().addClass('targetSeatedShape');
@@ -219,7 +219,7 @@ $(document).ready(function () {
                     moveSeatedShape();
                 }
 
-                if (seatedShape.attr('id') == 'squareShape' && !droppingInsideBox) {
+                if (seatedShape.attr('id') == 'squareShape' && !droppingInsideBox && !extractShape) {
                     seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.squareValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     $(rightBoxes[game.balanceCount - 1]).children().addClass('targetSeatedShape');
@@ -227,7 +227,7 @@ $(document).ready(function () {
                     moveSeatedShape();
                 }
 
-                if (seatedShape.attr('id') == 'triangleShape' && !droppingInsideBox) {
+                if (seatedShape.attr('id') == 'triangleShape' && !droppingInsideBox && !extractShape) {
                     seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.triangleValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     $(rightBoxes[game.balanceCount - 1]).children().addClass('targetSeatedShape');
@@ -291,8 +291,6 @@ $(document).ready(function () {
                 getRightLineHeight += difference;
             }
 
-            extractShape = false;
-
             animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
 
@@ -318,8 +316,6 @@ $(document).ready(function () {
                 getRightLineHeight += difference;
             }
 
-            extractShape = false;
-
             animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
 
@@ -335,7 +331,23 @@ $(document).ready(function () {
             containment: 'window',
             stack: '.dragShape',
             revert: true,
-            revertDuration: 900
+            revertDuration: 900,
+
+            start: function (event, ui) {
+                extractShape = false;
+
+                ui.helper.css({
+                    'filter': 'drop-shadow(rgb(69, 201, 58) 5px 6px 7px)',
+                })
+            },
+
+            stop: function (event, ui) {
+                extractShape = false;
+
+                ui.helper.css({
+                    'filter': 'none',
+                })
+            }
         });
     }
 
@@ -353,6 +365,8 @@ $(document).ready(function () {
                     'transform': 'scale(1.2)',
                 });
 
+
+
                 droppingInsideBox = true;
 
                 $(rightBoxes[game.balanceCount - 1]).on("dropout", function (event, ui) {
@@ -360,6 +374,7 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareTriangle(1, game.triangleValue);
+                            ui.draggable.draggable({ disabled: true });
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
@@ -408,7 +423,7 @@ $(document).ready(function () {
                 });
 
                 droppingInsideBox = false;
-            }
+            },
         });
     }
 
