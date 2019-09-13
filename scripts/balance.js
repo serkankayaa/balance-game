@@ -110,7 +110,7 @@ $(document).ready(function () {
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
             console.log($(leftBoxes[i]).outerHeight(true));
-            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).outerHeight(true), game.triangleValue, $(leftBoxes[i]));
+            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
             seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.squareValue, $(leftBoxes[i]));
             seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.circleValue, $(leftBoxes[i]));
 
@@ -358,7 +358,6 @@ $(document).ready(function () {
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
-                            draggingInside = false;
                         }
 
                         moveShape();
@@ -371,7 +370,6 @@ $(document).ready(function () {
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
-                            draggingInside = false;
                         }
 
                         moveShape();
@@ -384,7 +382,6 @@ $(document).ready(function () {
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
-                            draggingInside = false;
                         }
 
                         moveShape();
@@ -407,11 +404,6 @@ $(document).ready(function () {
             'margin-left': '1.2px',
             'margin-top': '1px',
         });
-
-        if(!draggingInside) {
-            $(seatedShapeClass).hide();
-            $(seatedShapeClass).toggle("bounce");
-        }
 
         moveShape();
     }
