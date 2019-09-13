@@ -16,7 +16,9 @@ $(document).ready(function () {
 
     var checkComplete = false;
     var extractShape = false;
-    var draggingInside = false;
+    var droppingInsideBox = false;
+    var checkShapeCount = 0;
+    var gameTime = 0;
 
     //first game load.
     var game = game1;
@@ -24,6 +26,7 @@ $(document).ready(function () {
     addStyles();
     moveShape();
     dropShape();
+    gameStartTime();
 
     function prepareBalances(game) {
         var balanceHtml = "";
@@ -109,7 +112,6 @@ $(document).ready(function () {
 
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
-            console.log($(leftBoxes[i]).outerHeight(true));
             seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
             seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.squareValue, $(leftBoxes[i]));
             seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.circleValue, $(leftBoxes[i]));
@@ -162,6 +164,9 @@ $(document).ready(function () {
         alignBalances(balances);
         moveShape();
         dropShape();
+
+        $('.bln').hide();
+        $(".bln").toggle("scale", 1500, function () { });
     }
 
     function alignBalances(balances) {
@@ -206,7 +211,7 @@ $(document).ready(function () {
                     return;
                 }
 
-                if (seatedShape.attr('id') == 'circleShape') {
+                if (seatedShape.attr('id') == 'circleShape' && !droppingInsideBox) {
                     seatedCircle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.circleValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     $(rightBoxes[game.balanceCount - 1]).children().addClass('targetSeatedShape');
@@ -214,7 +219,7 @@ $(document).ready(function () {
                     moveSeatedShape();
                 }
 
-                if (seatedShape.attr('id') == 'squareShape') {
+                if (seatedShape.attr('id') == 'squareShape' && !droppingInsideBox) {
                     seatedSquare(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.squareValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     $(rightBoxes[game.balanceCount - 1]).children().addClass('targetSeatedShape');
@@ -222,7 +227,7 @@ $(document).ready(function () {
                     moveSeatedShape();
                 }
 
-                if (seatedShape.attr('id') == 'triangleShape') {
+                if (seatedShape.attr('id') == 'triangleShape' && !droppingInsideBox) {
                     seatedTriangle(1, $(rightBoxes[lastIndex]).position().left, $(rightBoxes[lastIndex]).position().top, game.triangleValue, $(rightBoxes[lastIndex]));
                     completeShape(seatedShape, lastIndex);
                     $(rightBoxes[game.balanceCount - 1]).children().addClass('targetSeatedShape');
@@ -334,21 +339,21 @@ $(document).ready(function () {
         });
     }
 
-    var checkShapeCount = 0;
-
     function moveSeatedShape() {
         $(".targetSeatedShape").draggable({
             containment: 'window',
             stack: '.targetSeatedShape',
-            revert: 'valid',
-            revertDuration: 5000,
+            revert: true,
+            revertDuration: 600,
 
             start: function () {
                 $(this).removeClass('seatedShape');
 
                 $(this).css({
-                    'transform': '',
+                    'transform': 'scale(1.2)',
                 });
+
+                droppingInsideBox = true;
 
                 $(rightBoxes[game.balanceCount - 1]).on("dropout", function (event, ui) {
                     if (ui.draggable.attr('id') == 'triangleShape') {
@@ -358,6 +363,8 @@ $(document).ready(function () {
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
+                            seatedShapes.shift();
+                            droppingInsideBox = false;
                         }
 
                         moveShape();
@@ -370,6 +377,8 @@ $(document).ready(function () {
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
+                            seatedShapes.shift();
+                            droppingInsideBox = false;
                         }
 
                         moveShape();
@@ -382,6 +391,8 @@ $(document).ready(function () {
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
+                            seatedShapes.shift();
+                            droppingInsideBox = false;
                         }
 
                         moveShape();
@@ -390,6 +401,14 @@ $(document).ready(function () {
 
                 checkShapeCount = 0;
             },
+
+            stop: function (event, ui) {
+                ui.helper.css({
+                    'transform': 'scale(0.7)',
+                });
+
+                droppingInsideBox = false;
+            }
         });
     }
 
@@ -422,29 +441,60 @@ $(document).ready(function () {
     }
 
     function animateMargin(element, marginTopSize) {
-        $(element).animate({
-            marginTop: marginTopSize,
-        }, gameObject.balanceSpeed, function () {
-            //animate completed
-            readyShapeToDrag = true;
+        if (gameTime < 2 || checkComplete) {
+            setTimeout(function () {
+                $(element).animate({
+                    marginTop: marginTopSize,
+                }, gameObject.balanceSpeed, function () {
+                    //animate completed
+                    readyShapeToDrag = true;
 
-            if (checkComplete) {
-                // alert("oyun bitti tebrikler");
-                nextGame();
-                return;
-            }
+                    if (checkComplete) {
+                        // alert("oyun bitti tebrikler");
+                        nextGame();
+                        return;
+                    }
 
-            moveShape();
-        });
+                    moveShape();
+                });
+            }, 1500);
+        } else {
+            $(element).animate({
+                marginTop: marginTopSize,
+            }, gameObject.balanceSpeed, function () {
+                //animate completed
+                readyShapeToDrag = true;
+
+                if (checkComplete) {
+                    // alert("oyun bitti tebrikler");
+                    nextGame();
+                    return;
+                }
+
+                moveShape();
+            });
+        }
     }
 
     function animateHeight(element, heightSize) {
-        $(element).animate({
-            height: heightSize,
-        }, gameObject.balanceSpeed, function () {
-            //animate completed
-            moveShape();
-        });
+        if (gameTime < 2 || checkComplete) {
+            setTimeout(function () {
+                $(element).animate({
+                    height: heightSize,
+                }, gameObject.balanceSpeed, function () {
+                    //animate completed
+                    moveShape();
+                });
+            }, 1500);
+        }
+        else {
+            $(element).animate({
+                height: heightSize,
+            }, gameObject.balanceSpeed, function () {
+                //animate completed
+                moveShape();
+            });
+        }
     }
 
     function clearGame() {
@@ -595,5 +645,11 @@ $(document).ready(function () {
             shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
             $(".triangles").append(shapeHtml);
         }
+    }
+
+    function gameStartTime() {
+        setInterval(function () {
+            gameTime++;
+        }, 1000);
     }
 });
