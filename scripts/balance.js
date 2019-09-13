@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     var checkComplete = false;
     var extractShape = false;
+    var draggingInside = false;
 
     //first game load.
     var game = game1;
@@ -108,9 +109,10 @@ $(document).ready(function () {
 
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
-            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
-            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.squareValue, $(leftBoxes[i]));
-            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.circleValue, $(leftBoxes[i]));
+            console.log($(leftBoxes[i]).outerHeight(true));
+            seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).outerHeight(true), game.triangleValue, $(leftBoxes[i]));
+            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.squareValue, $(leftBoxes[i]));
+            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.circleValue, $(leftBoxes[i]));
 
             //seated right boxes
             seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, game.triangleValue, $(rightBoxes[i]));
@@ -194,10 +196,10 @@ $(document).ready(function () {
                 var seatedShape = ui.draggable;
                 var lastIndex = game.balanceCount - 1;
 
-                // if (seatedShapes.length == 9) {
-                //     alert("Daha fazla şekil koyamazsınız !");
-                //     return;
-                // }
+                if (seatedShapes.length == 9) {
+                    alert("Daha fazla şekil koyamazsınız !");
+                    //TODO: şekli geriye koy.
+                }
 
                 if ($(ropeLeftLines[lastIndex]).height() == 0) {
                     alert("İpi koparttın. Artık oynanmaz !");
@@ -352,10 +354,11 @@ $(document).ready(function () {
                     if (ui.draggable.attr('id') == 'triangleShape') {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
-                            var triangleShape = prepareTriangle(1, game.triangleValue);
+                            prepareTriangle(1, game.triangleValue);
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
+                            draggingInside = false;
                         }
 
                         moveShape();
@@ -364,10 +367,11 @@ $(document).ready(function () {
                     if (ui.draggable.attr('id') == 'circleShape') {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
-                            var circleShape = prepareCircle(1, game.circleValue);
+                            prepareCircle(1, game.circleValue);
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
+                            draggingInside = false;
                         }
 
                         moveShape();
@@ -376,10 +380,11 @@ $(document).ready(function () {
                     if (ui.draggable.attr('id') == 'squareShape') {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
-                            var squareShape = prepareSquare(1, game.squareValue);
+                            prepareSquare(1, game.squareValue);
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
+                            draggingInside = false;
                         }
 
                         moveShape();
@@ -403,8 +408,10 @@ $(document).ready(function () {
             'margin-top': '1px',
         });
 
-        $(seatedShapeClass).hide();
-        $(seatedShapeClass).toggle("bounce");
+        if(!draggingInside) {
+            $(seatedShapeClass).hide();
+            $(seatedShapeClass).toggle("bounce");
+        }
 
         moveShape();
     }
