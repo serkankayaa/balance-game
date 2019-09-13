@@ -4,6 +4,9 @@ $(document).ready(function () {
     games.push(game2, game3);
     games.sort();
 
+    //result shapes
+    var userAnswers = [];
+
     //balance elements
     var balances = [];
     var leftBoxes = [];
@@ -238,6 +241,28 @@ $(document).ready(function () {
         });
     }
 
+    function calculateUserAnswer(game) {
+        var triangleCount = 0;
+        var circleCount = 0;
+        var squareCount = 0;
+
+        seatedShapes.forEach(shape => {
+            if (shape.attr('id') == 'triangleShape') {
+                triangleCount++;
+            }
+
+            if (shape.attr('id') == 'squareShape') {
+                squareCount++;
+            }
+
+            if (shape.attr('id') == 'circleShape') {
+                circleCount++;
+            }
+        });
+        
+        userAnswers.push({ game: game, triangleCount: triangleCount, circleCount: circleCount, squareCount: squareCount });
+    }
+
     function calculateWeight(balanceIndex) {
         var leftValue = 0;
         var rightValue = 0;
@@ -364,8 +389,6 @@ $(document).ready(function () {
                 $(this).css({
                     'transform': 'scale(1.2)',
                 });
-
-
 
                 droppingInsideBox = true;
 
@@ -533,6 +556,7 @@ $(document).ready(function () {
 
         for (let i = 0; i < games.length; i++) {
             if (checkComplete) {
+                calculateUserAnswer(game.name);
                 game = games[i];
                 clearGame();
                 prepareBalances(game);
