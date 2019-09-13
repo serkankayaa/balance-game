@@ -22,19 +22,55 @@ $(document).ready(function () {
     var droppingInsideBox = false;
     var checkShapeCount = 0;
     var gameTime = 0;
+    var totalShapeCount = gameObject.maxShapeCount;
 
     //first game load.
     var game = game1;
     prepareBalances(game);
+    setDraggableShapes();
     addStyles();
     moveShape();
     dropShape();
     gameStartTime();
 
+    function setDraggableShapes() {
+        setTimeout(function () {
+            var shapeHtml = "<div class='col shapes'>";
+
+            $(".blnTarget").append(shapeHtml);
+
+            game.dragShapes.forEach(element => {
+                if (element == 'triangle') {
+                    var triangleHtml = "<div class='col triangles'></div></div>";
+                    $(".shapes").append(triangleHtml);
+                    prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
+                }
+
+                if (element == 'square') {
+                    var squareHtml = "<div class='col squares'></div>";
+                    $(".shapes").append(squareHtml);
+                    prepareSquare(gameObject.maxShapeCount, game.squareValue);
+                }
+
+                if (element == 'circle') {
+                    var circleHtml = "<div class='col circles'></div>";
+                    $(".shapes").append(circleHtml);
+                    prepareCircle(gameObject.maxShapeCount, game.circleValue);
+                }
+            });
+
+            addStyles();
+            moveShape();
+
+            $(".shapes").hide();
+            $(".shapes").toggle("pulsate", 1500, function () { });
+
+        }, 2000);
+    }
+
     function prepareBalances(game) {
         var balanceHtml = "";
         var targetBalanceHtml = "";
-        var shapeHtml = "";
 
         for (var balanceIndex = 0; balanceIndex < game.balanceCount; balanceIndex++) {
 
@@ -85,33 +121,6 @@ $(document).ready(function () {
             ropeRightLines.push("#" + ropeRightId);
             ropeRightLines.sort();
         });
-
-
-        shapeHtml += "<div class='col shapes'>";
-
-        $(".blnTarget").append(shapeHtml);
-
-        game.dragShapes.forEach(element => {
-            if (element == 'triangle') {
-                var triangleHtml = "<div class='col triangles'></div></div>";
-                $(".shapes").append(triangleHtml);
-                prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
-            }
-
-            if (element == 'square') {
-                var squareHtml = "<div class='col squares'></div>";
-                $(".shapes").append(squareHtml);
-                prepareSquare(gameObject.maxShapeCount, game.squareValue);
-            }
-
-            if (element == 'circle') {
-                var circleHtml = "<div class='col circles'></div>";
-                $(".shapes").append(circleHtml);
-                prepareCircle(gameObject.maxShapeCount, game.circleValue);
-            }
-        });
-
-        moveShape();
 
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
@@ -170,6 +179,8 @@ $(document).ready(function () {
 
         $('.bln').hide();
         $(".bln").toggle("scale", 1500, function () { });
+        $('.blnTarget > .blnCol').hide();
+        $(".blnTarget > .blnCol").toggle("bounce", 2500, function () { });
     }
 
     function alignBalances(balances) {
@@ -259,7 +270,7 @@ $(document).ready(function () {
                 circleCount++;
             }
         });
-        
+
         userAnswers.push({ game: game, triangleCount: triangleCount, circleCount: circleCount, squareCount: squareCount });
     }
 
@@ -397,7 +408,6 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareTriangle(1, game.triangleValue);
-                            ui.draggable.draggable({ disabled: true });
                             ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
@@ -488,8 +498,9 @@ $(document).ready(function () {
                     readyShapeToDrag = true;
 
                     if (checkComplete) {
-                        // alert("oyun bitti tebrikler");
-                        nextGame();
+                        setTimeout(function () {
+                            nextGame();
+                        }, 1000);
                         return;
                     }
 
@@ -504,8 +515,13 @@ $(document).ready(function () {
                 readyShapeToDrag = true;
 
                 if (checkComplete) {
-                    // alert("oyun bitti tebrikler");
-                    nextGame();
+                    var successHtml = "<img src='../img/success.jpg'/>"
+
+                    $('.bln').append(successHtml);
+
+                    setTimeout(function () {
+                        nextGame();
+                    }, 1800);
                     return;
                 }
 
@@ -563,6 +579,7 @@ $(document).ready(function () {
                 addStyles();
                 moveShape();
                 games.shift();
+                setDraggableShapes();
             }
         }
     }

@@ -1,7 +1,4 @@
 var gameObject = {
-    triangleValue: 3,
-    circleValue: 2,
-    squareValue: 5,
     maxShapeCount: 5,
     balanceSpeed: 1000
 }
