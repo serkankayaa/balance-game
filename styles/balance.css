@@ -1,5 +1,4 @@
 body {
-    background-image: url("../img/game-background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 100%;
@@ -7,7 +6,8 @@ body {
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: 'cover';
+    background-size: cover;
+    background-color: antiquewhite;
 }
 
 .container {
@@ -18,7 +18,7 @@ body {
     height: 600px;
     border: aliceblue;
     position: relative;
-    background-color: inherit!important;
+    background-color: inherit !important;
 }
 
 .ropeLeft {
@@ -89,6 +89,38 @@ body {
     /* transform: scale(0.8); */
     flex-wrap: wrap-reverse;
     display: flex;
+}
+
+.floor {
+    background-image: url(../img/floor2.png);
+    background-repeat: repeat-x;
+    height: 25px;
+    width: 170px;
+    position: absolute;
+    /* margin-top: 294px; */
+    margin-left: -29px;
+}
+
+.topHanger {
+    background-image: url(../img/balance2.png);
+    background-repeat: no-repeat;
+    height: 13px;
+    width: 71px;
+    background-position: -39px -6px;
+    position: absolute;
+    /* margin-top: 180px; */
+    margin-left: 20px;
+    z-index: 1;
+}
+
+.ropeTop {
+    height: 66px;
+    border-left: 5px solid lightslategrey;
+    position: absolute;
+    margin-top: 6px;
+    margin-left: 53px;
+    border-radius: 2px;
+    z-index: 1;
 }
 
 #circleShape {

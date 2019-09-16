@@ -13,6 +13,7 @@ $(document).ready(function () {
     var rightBoxes = [];
     var ropeLeftLines = [];
     var ropeRightLines = [];
+    var floors = [];
 
     //seated shapes 
     var seatedShapes = [];
@@ -23,6 +24,7 @@ $(document).ready(function () {
     var checkShapeCount = 0;
     var gameTime = 0;
     var totalShapeCount = gameObject.maxShapeCount;
+    var defaultHeight = 35;
 
     //first game load.
     var game = game1;
@@ -121,6 +123,13 @@ $(document).ready(function () {
             ropeRightLines.sort();
         });
 
+        $(".floor").each(function () {
+            var floorId = ($(this).attr("id"));
+
+            floors.push("#" + floorId);
+            floors.sort();
+        });
+
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
             seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
@@ -144,26 +153,46 @@ $(document).ready(function () {
                 rightValue += parseInt($(this).attr('value'));
             });
 
-            difference = leftValue - rightValue;
-
             var getLeftLineHeight = parseInt($(ropeLeftLines[i]).height());
             var getRightLineHeight = parseInt($(ropeRightLines[i]).height());
 
             var getLeftBoxHeight = parseInt($(leftBoxes[i]).css('margin-top'));
             var getRightBoxHeight = parseInt($(rightBoxes[i]).css('margin-top'));
 
-            if (i == game.balanceCount - 1) {
-                getLeftLineHeight += difference * 2.5;
-                getLeftBoxHeight += difference * 2.5;
-                getRightBoxHeight -= difference * 2.5;
-                getRightLineHeight -= difference * 2.5;
+            difference = leftValue - rightValue;
+
+            if (leftValue > rightValue) {
+                getLeftLineHeight += defaultHeight;
+                getLeftBoxHeight += defaultHeight;
+                getRightBoxHeight -= defaultHeight;
+                getRightLineHeight -= defaultHeight;
+
+                var topHeight = getLeftLineHeight * 2 - 1.3 + "px";
+
+                $('.floor').css({
+                    'margin-top': topHeight,
+                })
             }
-            else {
-                getLeftLineHeight += difference * 4;
-                getLeftBoxHeight += difference * 4;
-                getRightBoxHeight -= difference * 4;
-                getRightLineHeight -= difference * 4;
+
+            if (leftValue < rightValue) {
+                getLeftLineHeight -= defaultHeight;
+                getLeftBoxHeight -= defaultHeight;
+                getRightBoxHeight += defaultHeight;
+                getRightLineHeight += defaultHeight;
             }
+
+            // if (i == game.balanceCount - 1) {
+            //     getLeftLineHeight += difference * 2.5;
+            //     getLeftBoxHeight += difference * 2.5;
+            //     getRightBoxHeight -= difference * 2.5;
+            //     getRightLineHeight -= difference * 2.5;
+            // }
+            // else {
+            //     getLeftLineHeight += difference * 4;
+            //     getLeftBoxHeight += difference * 4;
+            //     getRightBoxHeight -= difference * 4;
+            //     getRightLineHeight -= difference * 4;
+            // }
 
             animateMargin($(leftBoxes[i]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
@@ -177,9 +206,9 @@ $(document).ready(function () {
         dropShape();
 
         $(".bln").hide();
-        $(".bln").toggle("scale", 1500, function () { 
+        $(".bln").toggle("scale", 1500, function () {
             $(".bln").css({
-                'transform' : 'scale(0.9)',
+                'transform': 'scale(0.9)',
             })
         });
     }
@@ -371,17 +400,17 @@ $(document).ready(function () {
 
             start: function (event, ui) {
                 var selectedShape = ui.helper.attr('id');
-                var shapeCountInside = $(rightBoxes[game.balanceCount - 1]).children("[id^='" + selectedShape +"']").length + 1;
+                var shapeCountInside = $(rightBoxes[game.balanceCount - 1]).children("[id^='" + selectedShape + "']").length + 1;
 
-                if(selectedShape == 'triangleShape' && shapeCountInside < gameObject.maxShapeCount) {
+                if (selectedShape == 'triangleShape' && shapeCountInside < gameObject.maxShapeCount) {
                     prepareTriangle(1, game.triangleValue);
                 }
 
-                if(selectedShape == 'squareShape' && shapeCountInside < gameObject.maxShapeCount) {
+                if (selectedShape == 'squareShape' && shapeCountInside < gameObject.maxShapeCount) {
                     prepareSquare(1, game.squareValue);
                 }
-                
-                if(selectedShape == 'circleShape' && shapeCountInside < gameObject.maxShapeCount) {
+
+                if (selectedShape == 'circleShape' && shapeCountInside < gameObject.maxShapeCount) {
                     prepareCircle(1, game.circleValue);
                 }
 
@@ -493,12 +522,15 @@ $(document).ready(function () {
     function setBalances(balanceHtml, index) {
         balanceHtml = "<div class='col blnCol'>";
         balanceHtml += "<div id='balance" + index + "' class='blnShape'>";
-        balanceHtml += "<div class='hanger'></div>";
         balanceHtml += "<div class='pendulum' id='pendulum" + index + "'></div>";
         balanceHtml += "<div class='ropeLeft' id = 'ropeLeft" + index + "'></div >";
         balanceHtml += "<div class='ropeRight' id='ropeRight" + index + "'></div>";
         balanceHtml += "<div class='boxLeft' id='boxLeft" + index + "'></div>";
-        balanceHtml += "<div class='boxRight' id='boxRight" + index + "'></div></div ></div >";
+        balanceHtml += "<div class='boxRight' id='boxRight" + index + "'></div>";
+        balanceHtml += "<div class='floor' id='floor" + index + "'></div>";
+        balanceHtml += "<div class='ropeTop' id='ropeTop" + index + "'></div>";
+        balanceHtml += "<div class='topHanger' id='topHanger" + index + "'></div>";
+        balanceHtml += "</div>";
 
         return balanceHtml;
     }
