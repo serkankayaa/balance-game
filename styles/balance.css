@@ -22,45 +22,49 @@ body {
 }
 
 .ropeLeft {
-    height: 120px;
-    border-left: 2px solid gray;
+    height: 113px;
+    border-left: 5px solid #00aeef;
     position: absolute;
     margin-top: 70px;
     margin-left: 11px;
+    border-radius: 2px;
+    z-index: -1;
 }
 
 .ropeRight {
-    height: 120px;
-    border-left: 2px solid gray;
+    height: 113px;
+    border-left: 5px solid #00aeef;
     position: absolute;
     margin-top: 70px;
-    margin-left: 99px;
+    margin-left: 96px;
+    border-radius: 2px;
+    z-index: -1;
 }
 
 .pendulum {
-    background-image: url(../img/balance.png);
+    background-image: url(../img/balance2.png);
     background-repeat: no-repeat;
-    height: 105px;
-    width: 110px;
-    background-position: -4px -31px;
+    height: 112px;
+    width: 112px;
+    background-position: -4px -22px;
     margin-top: 14px;
     position: absolute;
-    transform: scale(0.85);
+    transform: scale(0.80);
 }
 
 .hanger {
-    background-image: url(../img/balance.png);
+    background-image: url(../img/balance2.png);
     background-repeat: no-repeat;
     height: 21px;
     width: 21px;
-    background-position: -5px -5px;
+    background-position: -4px -6px;
     position: absolute;
     margin-left: 43px;
-    margin-top: 7px;
+    margin-top: 11px;
 }
 
 .boxLeft {
-    background-image: url(../img/balance.png);
+    background-image: url(../img/balance2.png);
     background-repeat: no-repeat;
     height: 82px;
     width: 82px;
@@ -68,13 +72,13 @@ body {
     position: absolute;
     margin-top: 180px;
     left: -14px;
-    transform: scale(0.8);
+    /* transform: scale(0.8); */
     flex-wrap: wrap-reverse;
     display: flex;
 }
 
 .boxRight {
-    background-image: url(../img/balance.png);
+    background-image: url(../img/balance2.png);
     background-repeat: no-repeat;
     height: 82px;
     width: 82px;
@@ -82,7 +86,7 @@ body {
     position: absolute;
     margin-top: 180px;
     margin-left: 60px;
-    transform: scale(0.8);
+    /* transform: scale(0.8); */
     flex-wrap: wrap-reverse;
     display: flex;
 }

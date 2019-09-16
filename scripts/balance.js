@@ -34,37 +34,34 @@ $(document).ready(function () {
     gameStartTime();
 
     function setDraggableShapes() {
-        // setTimeout(function () {
-            var shapeHtml = "<div class='col shapes'>";
+        var shapeHtml = "<div class='col shapes'>";
 
-            $(".blnTarget").append(shapeHtml);
+        $(".blnTarget").append(shapeHtml);
 
-            game.dragShapes.forEach(element => {
-                if (element == 'triangle') {
-                    var triangleHtml = "<div class='col triangles'></div></div>";
-                    $(".shapes").append(triangleHtml);
-                    prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
-                }
+        game.dragShapes.forEach(element => {
+            if (element == 'triangle') {
+                var triangleHtml = "<div class='col triangles'></div></div>";
+                $(".shapes").append(triangleHtml);
+                prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
+            }
 
-                if (element == 'square') {
-                    var squareHtml = "<div class='col squares'></div>";
-                    $(".shapes").append(squareHtml);
-                    prepareSquare(gameObject.maxShapeCount, game.squareValue);
-                }
+            if (element == 'square') {
+                var squareHtml = "<div class='col squares'></div>";
+                $(".shapes").append(squareHtml);
+                prepareSquare(gameObject.maxShapeCount, game.squareValue);
+            }
 
-                if (element == 'circle') {
-                    var circleHtml = "<div class='col circles'></div>";
-                    $(".shapes").append(circleHtml);
-                    prepareCircle(gameObject.maxShapeCount, game.circleValue);
-                }
-            });
+            if (element == 'circle') {
+                var circleHtml = "<div class='col circles'></div>";
+                $(".shapes").append(circleHtml);
+                prepareCircle(gameObject.maxShapeCount, game.circleValue);
+            }
+        });
 
-            addStyles();
-            moveShape();
+        addStyles();
+        moveShape();
 
-            $(".shapes").css({ opacity: 0 });
-
-        // }, 2000);
+        $(".shapes").css({ opacity: 0 });
     }
 
     function prepareBalances(game) {
@@ -178,8 +175,6 @@ $(document).ready(function () {
 
         $('.bln').hide();
         $(".bln").toggle("scale", 1500, function () { });
-        // $('.blnTarget > .blnCol').hide();
-        // $(".blnTarget > .blnCol").toggle("bounce", 2500, function () { });
     }
 
     function alignBalances(balances) {
@@ -216,7 +211,6 @@ $(document).ready(function () {
 
                 if (seatedShapes.length == 9) {
                     return;
-                    //TODO: şekli geriye koy.
                 }
 
                 if ($(ropeLeftLines[lastIndex]).height() == 0) {
@@ -451,7 +445,7 @@ $(document).ready(function () {
 
             stop: function (event, ui) {
                 ui.helper.css({
-                    'transform': 'scale(0.7)',
+                    'transform': 'scale(0.85)',
                 });
 
                 droppingInsideBox = false;
@@ -466,7 +460,7 @@ $(document).ready(function () {
         calculateWeight(lastIndex);
 
         $(seatedShapeClass).css({
-            'transform': 'scale(0.7)',
+            'transform': 'scale(0.85)',
             'margin-left': '1.2px',
             'margin-top': '1px',
         });
@@ -613,7 +607,7 @@ $(document).ready(function () {
         }
 
         $('.seatedShape').css({
-            'transform': 'scale(0.7)',
+            'transform': 'scale(0.85)',
             'margin-left': '1.2px',
             'margin-top': '2px',
         });
