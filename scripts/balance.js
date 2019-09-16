@@ -215,7 +215,7 @@ $(document).ready(function () {
                 var lastIndex = game.balanceCount - 1;
 
                 if (seatedShapes.length == 9) {
-                    alert("Daha fazla şekil koyamazsınız !");
+                    return;
                     //TODO: şekli geriye koy.
                 }
 
