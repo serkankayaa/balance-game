@@ -515,10 +515,6 @@ $(document).ready(function () {
                 readyShapeToDrag = true;
 
                 if (checkComplete) {
-                    var successHtml = "<img src='../img/success.jpg'/>"
-
-                    $('.bln').append(successHtml);
-
                     setTimeout(function () {
                         nextGame();
                     }, 1800);
