@@ -34,7 +34,7 @@ $(document).ready(function () {
     gameStartTime();
 
     function setDraggableShapes() {
-        setTimeout(function () {
+        // setTimeout(function () {
             var shapeHtml = "<div class='col shapes'>";
 
             $(".blnTarget").append(shapeHtml);
@@ -62,10 +62,9 @@ $(document).ready(function () {
             addStyles();
             moveShape();
 
-            $(".shapes").hide();
-            $(".shapes").toggle("pulsate", 1500, function () { });
+            $(".shapes").css({ opacity: 0 });
 
-        }, 2000);
+        // }, 2000);
     }
 
     function prepareBalances(game) {
@@ -504,6 +503,9 @@ $(document).ready(function () {
                         return;
                     }
 
+                    $(".shapes").css({ opacity: 1 });
+                    // $(".shapes").toggle("pulsate", 500, function () { });
+
                     moveShape();
                 });
             }, 1500);
@@ -520,6 +522,8 @@ $(document).ready(function () {
                     }, 1800);
                     return;
                 }
+
+                $(".shapes").css({ opacity: 1 });
 
                 moveShape();
             });
