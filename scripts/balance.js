@@ -179,8 +179,8 @@ $(document).ready(function () {
 
         $('.bln').hide();
         $(".bln").toggle("scale", 1500, function () { });
-        $('.blnTarget > .blnCol').hide();
-        $(".blnTarget > .blnCol").toggle("bounce", 2500, function () { });
+        // $('.blnTarget > .blnCol').hide();
+        // $(".blnTarget > .blnCol").toggle("bounce", 2500, function () { });
     }
 
     function alignBalances(balances) {
