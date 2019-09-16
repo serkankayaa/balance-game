@@ -176,8 +176,12 @@ $(document).ready(function () {
         moveShape();
         dropShape();
 
-        $('.bln').hide();
-        $(".bln").toggle("scale", 1500, function () { });
+        $(".bln").hide();
+        $(".bln").toggle("scale", 1500, function () { 
+            $(".bln").css({
+                'transform' : 'scale(0.9)',
+            })
+        });
     }
 
     function alignBalances(balances) {
@@ -367,16 +371,17 @@ $(document).ready(function () {
 
             start: function (event, ui) {
                 var selectedShape = ui.helper.attr('id');
+                var shapeCountInside = $(rightBoxes[game.balanceCount - 1]).children("[id^='" + selectedShape +"']").length + 1;
 
-                if(selectedShape == 'triangleShape') {
+                if(selectedShape == 'triangleShape' && shapeCountInside < gameObject.maxShapeCount) {
                     prepareTriangle(1, game.triangleValue);
                 }
 
-                if(selectedShape == 'squareShape') {
+                if(selectedShape == 'squareShape' && shapeCountInside < gameObject.maxShapeCount) {
                     prepareSquare(1, game.squareValue);
                 }
                 
-                if(selectedShape == 'circleShape') {
+                if(selectedShape == 'circleShape' && shapeCountInside < gameObject.maxShapeCount) {
                     prepareCircle(1, game.circleValue);
                 }
 
