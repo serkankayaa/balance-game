@@ -42,19 +42,22 @@ $(document).ready(function () {
             if (element == 'triangle') {
                 var triangleHtml = "<div class='col triangles'></div></div>";
                 $(".shapes").append(triangleHtml);
-                prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
+                // prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
+                prepareTriangle(1, game.triangleValue);
             }
 
             if (element == 'square') {
                 var squareHtml = "<div class='col squares'></div>";
                 $(".shapes").append(squareHtml);
-                prepareSquare(gameObject.maxShapeCount, game.squareValue);
+                // prepareSquare(gameObject.maxShapeCount, game.squareValue);
+                prepareSquare(1, game.squareValue);
             }
 
             if (element == 'circle') {
                 var circleHtml = "<div class='col circles'></div>";
                 $(".shapes").append(circleHtml);
-                prepareCircle(gameObject.maxShapeCount, game.circleValue);
+                // prepareCircle(gameObject.maxShapeCount, game.circleValue);
+                prepareCircle(1, game.circleValue);
             }
         });
 
@@ -363,6 +366,20 @@ $(document).ready(function () {
             revertDuration: 900,
 
             start: function (event, ui) {
+                var selectedShape = ui.helper.attr('id');
+
+                if(selectedShape == 'triangleShape') {
+                    prepareTriangle(1, game.triangleValue);
+                }
+
+                if(selectedShape == 'squareShape') {
+                    prepareSquare(1, game.squareValue);
+                }
+                
+                if(selectedShape == 'circleShape') {
+                    prepareCircle(1, game.circleValue);
+                }
+
                 extractShape = false;
 
                 ui.helper.css({
