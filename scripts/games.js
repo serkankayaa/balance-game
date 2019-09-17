@@ -6,7 +6,7 @@ var gameObject = {
 var game1 = {
     name: 'game1',
     balanceCount: 3,
-    dragShapes: [ 'triangle', 'circle', 'square' ],
+    dragShapes: [ 'triangle', 'circle' ],
     triangleValue: 3,
     circleValue: 2,
     squareValue: 5,
