@@ -519,7 +519,7 @@ $(document).ready(function () {
                     left: "+=" + left,
                     top: "0px",
                 }, {
-                    duration: 2000,
+                    duration: 1500,
                     complete: function () {
                         //animation complete
                         ui.helper.remove();
