@@ -440,8 +440,6 @@ $(document).ready(function () {
         });
     }
 
-    var trianglePosition = $('.triangles')[0].getBoundingClientRect();
-
     function moveSeatedShape() {
         $(".targetSeatedShape").draggable({
             containment: 'window',
@@ -464,10 +462,10 @@ $(document).ready(function () {
                         if (checkShapeCount == 1) {
                             prepareTriangle(1, game.triangleValue);
                             // ui.draggable.remove();
-                            // extractShape = true;
-                            // calculateWeight(game.balanceCount - 1);
-                            // seatedShapes.shift();
-                            // droppingInsideBox = false;
+                            extractShape = true;
+                            calculateWeight(game.balanceCount - 1);
+                            seatedShapes.shift();
+                            droppingInsideBox = false;
                         }
 
                         moveShape();
@@ -477,7 +475,7 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareCircle(1, game.circleValue);
-                            ui.draggable.remove();
+                            // ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
@@ -491,7 +489,7 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareSquare(1, game.squareValue);
-                            ui.draggable.remove();
+                            // ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
@@ -510,25 +508,87 @@ $(document).ready(function () {
                     'transform': 'scale(0.85)',
                 });
 
-                ui.helper.css({ 'position': 'absolute' });
-                var triangleLeft = trianglePosition.left;
-                var currentPositionLeft = ui.offset.left;
-                var left = triangleLeft - currentPositionLeft + 12;
+                setToOriginalPosition(ui);
+                
+                // ui.helper.css({ 'position': 'absolute' });
+                // var triangleLeft = trianglePosition.left;
+                // var currentPositionLeft = ui.offset.left;
+                // var left = triangleLeft - currentPositionLeft + 12;
 
-                ui.helper.animate({
-                    left: "+=" + left,
-                    top: "0px",
-                }, {
-                    duration: 1500,
-                    complete: function () {
-                        //animation complete
-                        ui.helper.remove();
-                    },
-                });
+                // ui.helper.animate({
+                //     left: "+=" + left,
+                //     top: "0px",
+                // }, {
+                //     duration: 1500,
+                //     complete: function () {
+                //         //animation complete
+                //         ui.helper.remove();
+                //     },
+                // });
 
                 droppingInsideBox = false;
             },
         });
+    }
+
+    function setToOriginalPosition(shape) {
+        var trianglePosition = $('.triangles').length > 0 ? $('.triangles')[0].getBoundingClientRect() : null;
+        var squarePosition = $('.squares').length > 0 ? $('.squares')[0].getBoundingClientRect() : null;
+        var circlePosition = $('.circles').length > 0 ? $('.circles')[0].getBoundingClientRect() : null;
+
+        if (shape.helper.attr('id') == 'triangleShape') {
+            shape.helper.css({ 'position': 'absolute' });
+            var triangleLeft = trianglePosition.left;
+            var currentPositionLeft = shape.offset.left;
+            var left = triangleLeft - currentPositionLeft + 12;
+
+            shape.helper.animate({
+                left: "+=" + left,
+                top: "0px",
+            }, {
+                duration: 1500,
+                complete: function () {
+                    //animation complete
+                    shape.helper.remove();
+                },
+            });
+        }
+
+        if (shape.helper.attr('id') == 'squareShape') {
+            shape.helper.css({ 'position': 'absolute' });
+            var squareLeft = squarePosition.left;
+            var currentPositionLeft = shape.offset.left;
+            var left = squareLeft - currentPositionLeft + 12;
+
+            shape.helper.animate({
+                left: "+=" + left,
+                top: "0px",
+            }, {
+                duration: 1500,
+                complete: function () {
+                    //animation complete
+                    shape.helper.remove();
+                },
+            });
+        }
+
+        if (shape.helper.attr('id') == 'circleShape') {
+            shape.helper.css({ 'position': 'absolute' });
+            var circleLeft = circlePosition.left;
+            var currentPositionLeft = shape.offset.left;
+            var left = circleLeft - currentPositionLeft + 12;
+
+            shape.helper.animate({
+                left: "+=" + left,
+                top: "0px",
+            }, {
+                duration: 1500,
+                complete: function () {
+                    //animation complete
+                    shape.helper.remove();
+                },
+            });
+        }
     }
 
     function completeShape(seatedShape, lastIndex) {
