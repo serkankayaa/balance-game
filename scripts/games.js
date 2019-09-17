@@ -1,6 +1,7 @@
 var gameObject = {
     maxShapeCount: 5,
-    balanceSpeed: 1000
+    balanceSpeed: 1000,
+    defaultHeight: 35
 }
 
 var game1 = {

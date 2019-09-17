@@ -23,8 +23,7 @@ $(document).ready(function () {
     var droppingInsideBox = false;
     var checkShapeCount = 0;
     var gameTime = 0;
-    var totalShapeCount = gameObject.maxShapeCount;
-    var defaultHeight = 35;
+    var defaultHeight = gameObject.defaultHeight;
 
     //first game load.
     var game = game1;
@@ -40,7 +39,7 @@ $(document).ready(function () {
 
         $(".blnTarget").append(shapeHtml);
 
-        game.dragShapes.forEach(element => {
+        game.dragShapes.forEach(function (element) {
             if (element == 'triangle') {
                 var triangleHtml = "<div class='col triangles'></div></div>";
                 $(".shapes").append(triangleHtml);
@@ -133,8 +132,8 @@ $(document).ready(function () {
         for (let i = 0; i < game.balanceCount; i++) {
             //seated left boxes
             seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
-            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.squareValue, $(leftBoxes[i]));
-            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top + $(leftBoxes[i]).height(), game.circleValue, $(leftBoxes[i]));
+            seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.squareValue, $(leftBoxes[i]));
+            seatedCircle(game.leftBox[i].circleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.circleValue, $(leftBoxes[i]));
 
             //seated right boxes
             seatedTriangle(game.rightBox[i].triangleCount, $(rightBoxes[i]).position().left, $(rightBoxes[i]).position().top, game.triangleValue, $(rightBoxes[i]));
@@ -250,7 +249,6 @@ $(document).ready(function () {
                 }
 
                 if ($(ropeLeftLines[lastIndex]).height() == 0) {
-                    alert("İpi koparttın. Artık oynanmaz !");
                     return;
                 }
 
@@ -286,7 +284,7 @@ $(document).ready(function () {
         var circleCount = 0;
         var squareCount = 0;
 
-        seatedShapes.forEach(shape => {
+        seatedShapes.forEach(function (shape) {
             if (shape.attr('id') == 'triangleShape') {
                 triangleCount++;
             }
@@ -300,6 +298,7 @@ $(document).ready(function () {
             }
         });
 
+        //kullanıcının her cevapladığı sorunun veritabanına kaydedilmesi için kullanılıyor.
         userAnswers.push({ game: game, triangleCount: triangleCount, circleCount: circleCount, squareCount: squareCount });
     }
 
@@ -441,12 +440,14 @@ $(document).ready(function () {
         });
     }
 
+    var trianglePosition = $('.triangles')[0].getBoundingClientRect();
+
     function moveSeatedShape() {
         $(".targetSeatedShape").draggable({
             containment: 'window',
             stack: '.targetSeatedShape',
-            revert: true,
-            revertDuration: 600,
+            // revert: true,
+            // revertDuration: 600,
 
             start: function () {
                 $(this).removeClass('seatedShape');
@@ -462,11 +463,11 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareTriangle(1, game.triangleValue);
-                            ui.draggable.remove();
-                            extractShape = true;
-                            calculateWeight(game.balanceCount - 1);
-                            seatedShapes.shift();
-                            droppingInsideBox = false;
+                            // ui.draggable.remove();
+                            // extractShape = true;
+                            // calculateWeight(game.balanceCount - 1);
+                            // seatedShapes.shift();
+                            // droppingInsideBox = false;
                         }
 
                         moveShape();
@@ -507,6 +508,22 @@ $(document).ready(function () {
             stop: function (event, ui) {
                 ui.helper.css({
                     'transform': 'scale(0.85)',
+                });
+
+                ui.helper.css({ 'position': 'absolute' });
+                var triangleLeft = trianglePosition.left;
+                var currentPositionLeft = ui.offset.left;
+                var left = triangleLeft - currentPositionLeft + 12;
+
+                ui.helper.animate({
+                    left: "+=" + left,
+                    top: "0px",
+                }, {
+                    duration: 2000,
+                    complete: function () {
+                        //animation complete
+                        ui.helper.remove();
+                    },
                 });
 
                 droppingInsideBox = false;
@@ -552,6 +569,7 @@ $(document).ready(function () {
     }
 
     function animateMargin(element, marginTopSize) {
+        //açılır açılmaz şekiller animasyon ile aşağı-yukarı çıksın.
         if (gameTime < 2 || checkComplete) {
             setTimeout(function () {
                 $(element).animate({
@@ -559,6 +577,7 @@ $(document).ready(function () {
                 }, {
                     duration: gameObject.balanceSpeed,
                     complete: function () {
+                        //animation complete
                         readyShapeToDrag = true;
 
                         if (checkComplete) {
@@ -580,6 +599,7 @@ $(document).ready(function () {
             }, {
                 duration: gameObject.balanceSpeed,
                 complete: function () {
+                    //animation complete
                     readyShapeToDrag = true;
 
                     if (checkComplete) {
@@ -596,7 +616,6 @@ $(document).ready(function () {
                 },
 
                 step: function (now, fx) {
-                    console.log("hareket etmeye başladı");
                     $(".dragShape").draggable({ disabled: true });
                 }
             });
@@ -608,18 +627,24 @@ $(document).ready(function () {
             setTimeout(function () {
                 $(element).animate({
                     height: heightSize,
-                }, gameObject.balanceSpeed, function () {
-                    //animate completed
-                    moveShape();
+                }, {
+                    duration: gameObject.balanceSpeed,
+                    complete: function () {
+                        //animation complete
+                        moveShape();
+                    },
                 });
             }, 1500);
         }
         else {
             $(element).animate({
                 height: heightSize,
-            }, gameObject.balanceSpeed, function () {
-                //animate completed
-                moveShape();
+            }, {
+                duration: gameObject.balanceSpeed,
+                complete: function () {
+                    //animation complete
+                    moveShape();
+                },
             });
         }
     }
@@ -640,6 +665,7 @@ $(document).ready(function () {
         if (checkComplete && games.length == 0) {
             alert("Oyun bitti tebrikler");
             clearGame();
+            window.location.reload();
             return;
         }
 
