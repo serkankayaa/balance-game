@@ -36,7 +36,7 @@ $(document).ready(function () {
     gameStartTime();
 
     function setDraggableShapes() {
-        var shapeHtml = "<div class='col shapes'>";
+        var shapeHtml = "<div class='col-md-7 shapes'>";
 
         $(".blnTarget").append(shapeHtml);
 
@@ -44,24 +44,24 @@ $(document).ready(function () {
             if (element == 'triangle') {
                 var triangleHtml = "<div class='col triangles'></div></div>";
                 $(".shapes").append(triangleHtml);
-                // prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
                 prepareTriangle(1, game.triangleValue);
             }
 
             if (element == 'square') {
                 var squareHtml = "<div class='col squares'></div>";
                 $(".shapes").append(squareHtml);
-                // prepareSquare(gameObject.maxShapeCount, game.squareValue);
                 prepareSquare(1, game.squareValue);
             }
 
             if (element == 'circle') {
                 var circleHtml = "<div class='col circles'></div>";
                 $(".shapes").append(circleHtml);
-                // prepareCircle(gameObject.maxShapeCount, game.circleValue);
                 prepareCircle(1, game.circleValue);
             }
         });
+
+        var shapeDeskHtml = '<div class="deskImage"></div>';
+        $(".shapes").append(shapeDeskHtml);
 
         addStyles();
         moveShape();
@@ -552,7 +552,6 @@ $(document).ready(function () {
                     }
 
                     $(".shapes").css({ opacity: 1 });
-                    // $(".shapes").toggle("pulsate", 500, function () { });
 
                     moveShape();
                 });

@@ -146,3 +146,27 @@ body {
     border-bottom: 25px solid indianred;
     display: inline-block;
 }
+
+.shapes {
+    background-image: url(../img/shapeDesk.png);
+    width: 125px;
+    height: 113px;
+    background-repeat: no-repeat;
+    margin-top: 51% !important;
+    margin-right: 50px !important;
+    display: flex;
+    margin-left: 114% !important;
+    opacity: 1;
+}
+
+.shapes>.triangles {
+    margin-top: 40px;
+}
+
+.shapes>.circles {
+    margin-top: 40px;
+}
+
+.shapes>.squares {
+    margin-top: 40px;
+}
