@@ -170,3 +170,15 @@ body {
 .shapes>.squares {
     margin-top: 40px;
 }
+
+.shapes>.triangles>#circleShape {
+    margin-left: 0px !important;
+}
+
+.shapes>.triangles>#triangleShape {
+    margin-left: 0px !important;
+}
+
+.shapes>.triangles>#squareShape {
+    margin-left: 0px !important;
+}
