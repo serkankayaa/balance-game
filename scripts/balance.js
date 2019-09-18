@@ -21,6 +21,7 @@ $(document).ready(function () {
     var checkComplete = false;
     var extractShape = false;
     var droppingInsideBox = false;
+    var checkInsideBox = false;
     var checkShapeCount = 0;
     var gameTime = 0;
     var defaultHeight = gameObject.defaultHeight;
@@ -43,19 +44,19 @@ $(document).ready(function () {
             if (element == 'triangle') {
                 var triangleHtml = "<div class='col triangles'></div></div>";
                 $(".shapes").append(triangleHtml);
-                prepareTriangle(1, game.triangleValue);
+                prepareTriangle(gameObject.maxShapeCount, game.triangleValue);
             }
 
             if (element == 'square') {
                 var squareHtml = "<div class='col squares'></div>";
                 $(".shapes").append(squareHtml);
-                prepareSquare(1, game.squareValue);
+                prepareSquare(gameObject.maxShapeCount, game.squareValue);
             }
 
             if (element == 'circle') {
                 var circleHtml = "<div class='col circles'></div>";
                 $(".shapes").append(circleHtml);
-                prepareCircle(1, game.circleValue);
+                prepareCircle(gameObject.maxShapeCount, game.circleValue);
             }
         });
 
@@ -166,7 +167,7 @@ $(document).ready(function () {
                 getRightBoxHeight -= defaultHeight;
                 getRightLineHeight -= defaultHeight;
 
-                var topHeight = getLeftLineHeight * 2 - 1.3 + "px";
+                var topHeight = getLeftLineHeight * 2 + 28 + "px";
 
                 $('.floor').css({
                     'margin-top': topHeight,
@@ -342,6 +343,7 @@ $(document).ready(function () {
         }
 
         if (checkLeftBigger) {
+            difference = 15;
             if (extractShape) {
                 getLeftLineHeight -= difference;
                 getLeftBoxHeight -= difference;
@@ -408,21 +410,6 @@ $(document).ready(function () {
             revertDuration: 900,
 
             start: function (event, ui) {
-                var selectedShape = ui.helper.attr('id');
-                var shapeCountInside = $(rightBoxes[game.balanceCount - 1]).children("[id^='" + selectedShape + "']").length + 1;
-
-                if (selectedShape == 'triangleShape' && shapeCountInside < gameObject.maxShapeCount) {
-                    prepareTriangle(1, game.triangleValue);
-                }
-
-                if (selectedShape == 'squareShape' && shapeCountInside < gameObject.maxShapeCount) {
-                    prepareSquare(1, game.squareValue);
-                }
-
-                if (selectedShape == 'circleShape' && shapeCountInside < gameObject.maxShapeCount) {
-                    prepareCircle(1, game.circleValue);
-                }
-
                 extractShape = false;
 
                 ui.helper.css({
@@ -444,8 +431,8 @@ $(document).ready(function () {
         $(".targetSeatedShape").draggable({
             containment: 'window',
             stack: '.targetSeatedShape',
-            // revert: true,
-            // revertDuration: 600,
+            revert: 'valid',
+            revertDuration: 600,
 
             start: function () {
                 $(this).removeClass('seatedShape');
@@ -508,12 +495,27 @@ $(document).ready(function () {
                     'transform': 'scale(0.85)',
                 });
 
+                checkInsideBox = checkInside(ui.helper, $(rightBoxes[game.balanceCount - 1]))
+
+                if(checkInsideBox) {
+                    return;
+                }
+
                 setToOriginalPosition(ui);
 
                 droppingInsideBox = false;
             },
         });
     }
+
+    function checkInside(r1, r2) {
+        return !(
+          r2.offset().left > r1.offset().left + r1.width() ||
+          r2.offset().left + r2.width() < r1.offset().left ||
+          r2.offset().top > r1.offset().top + r1.height() ||
+          r2.offset().top + r2.height() < r1.offset().top
+        );
+      }
 
     function setToOriginalPosition(shape) {
         var trianglePosition = $('.triangles').length > 0 ? $('.triangles')[0].getBoundingClientRect() : null;
@@ -528,7 +530,7 @@ $(document).ready(function () {
 
             shape.helper.animate({
                 left: "+=" + left,
-                top: "0px",
+                top: "0px"
             }, {
                 duration: 1500,
                 complete: function () {
@@ -777,6 +779,11 @@ $(document).ready(function () {
         });
 
         $('.blnTarget > .blnCol').addClass('mt-5');
+
+        // $('.boxRight').css({
+        //     'padding-top': '100%',
+        //     'padding-bottom': '2%',
+        // })
     }
 
     function seatedCircle(shapeCount, shapeX, shapeY, value, boxId) {

@@ -66,12 +66,12 @@ body {
 .boxLeft {
     background-image: url(../img/balance2.png);
     background-repeat: no-repeat;
-    height: 82px;
+    height: 110px;
     width: 82px;
-    background-position: -19px -135px;
+    background-position: -19px -142px;
     position: absolute;
-    margin-top: 179px;
-    left: -14px;
+    margin-top: 181px;
+    left: -13px;
     flex-wrap: wrap-reverse;
     display: flex;
 }
@@ -79,12 +79,12 @@ body {
 .boxRight {
     background-image: url(../img/balance2.png);
     background-repeat: no-repeat;
-    height: 82px;
+    height: 110px;
     width: 82px;
-    background-position: -19px -135px;
+    background-position: -19px -142px;
     position: absolute;
-    margin-top: 179px;
-    margin-left: 60px;
+    margin-top: 181px;
+    margin-left: 57px;
     flex-wrap: wrap-reverse;
     display: flex;
 }
