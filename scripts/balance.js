@@ -509,22 +509,6 @@ $(document).ready(function () {
                 });
 
                 setToOriginalPosition(ui);
-                
-                // ui.helper.css({ 'position': 'absolute' });
-                // var triangleLeft = trianglePosition.left;
-                // var currentPositionLeft = ui.offset.left;
-                // var left = triangleLeft - currentPositionLeft + 12;
-
-                // ui.helper.animate({
-                //     left: "+=" + left,
-                //     top: "0px",
-                // }, {
-                //     duration: 1500,
-                //     complete: function () {
-                //         //animation complete
-                //         ui.helper.remove();
-                //     },
-                // });
 
                 droppingInsideBox = false;
             },
@@ -550,6 +534,11 @@ $(document).ready(function () {
                 complete: function () {
                     //animation complete
                     shape.helper.remove();
+                    var shapeId = "#" + shape.helper.attr('id');
+                    var seatedShape = $('.shapes').children().children(shapeId);
+
+                    seatedShape.hide();
+                    seatedShape.show('bounce');
                 },
             });
         }
@@ -568,6 +557,11 @@ $(document).ready(function () {
                 complete: function () {
                     //animation complete
                     shape.helper.remove();
+                    var shapeId = "#" + shape.helper.attr('id');
+                    var seatedShape = $('.shapes').children().children(shapeId);
+
+                    seatedShape.hide();
+                    seatedShape.show('bounce');
                 },
             });
         }
@@ -586,6 +580,11 @@ $(document).ready(function () {
                 complete: function () {
                     //animation complete
                     shape.helper.remove();
+                    var shapeId = "#" + shape.helper.attr('id');
+                    var seatedShape = $('.shapes').children().children(shapeId);
+
+                    seatedShape.hide();
+                    seatedShape.show('bounce');
                 },
             });
         }
