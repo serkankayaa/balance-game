@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    //all games
+    //bütün oyunlar
     var games = [];
     games.push(game2, game3);
     games.sort();
 
-    //result shapes
+    //kullanıcının cevapları
     var userAnswers = [];
 
     //balance elements
@@ -15,7 +15,7 @@ $(document).ready(function () {
     var ropeRightLines = [];
     var floors = [];
 
-    //seated shapes 
+    //hedef terazide oturtulan sekiller
     var seatedShapes = [];
 
     var checkComplete = false;
@@ -26,15 +26,16 @@ $(document).ready(function () {
     var gameTime = 0;
     var defaultHeight = gameObject.defaultHeight;
 
-    //first game load.
+    //ilk oyunun yüklenmesi
     var game = game1;
     prepareBalances(game);
     setDraggableShapes();
     addStyles();
     moveShape();
     dropShape();
-    gameStartTime();
+    startGameTime();
 
+    //kefelere otomatik şekil oturtur.
     function setDraggableShapes() {
         var shapeHtml = "<div class='col-md-7 shapes'>";
 
@@ -69,6 +70,7 @@ $(document).ready(function () {
         $(".shapes").css({ opacity: 0 });
     }
 
+    //Tüm teraziler hazırlanıp dolduruluyor ve sabit şekillerin ağırlık kontrolü yapılıyor.
     function prepareBalances(game) {
         var balanceHtml = "";
         var targetBalanceHtml = "";
@@ -76,12 +78,12 @@ $(document).ready(function () {
         for (var balanceIndex = 0; balanceIndex < game.balanceCount; balanceIndex++) {
 
             if (balanceIndex == game.balanceCount - 1) {
-                targetBalanceHtml = setBalances(targetBalanceHtml, balanceIndex);
+                targetBalanceHtml = createBalance(targetBalanceHtml, balanceIndex);
                 $(".blnTarget").append(targetBalanceHtml);
                 $(".blnTarget").addClass('mx-auto');
             }
             else {
-                balanceHtml = setBalances(balanceHtml, balanceIndex);
+                balanceHtml = createBalance(balanceHtml, balanceIndex);
                 $(".bln").append(balanceHtml);
             }
 
@@ -239,6 +241,7 @@ $(document).ready(function () {
         }
     }
 
+    //şekil hedefin terazideki sağ kutuya bırakıldığında çalışacak method
     function dropShape() {
         $(".blnTarget > .blnCol > .blnShape > .boxRight").droppable({
             drop: function (event, ui) {
@@ -303,6 +306,7 @@ $(document).ready(function () {
         userAnswers.push({ game: game, triangleCount: triangleCount, circleCount: circleCount, squareCount: squareCount });
     }
 
+    //hedef terazinin dengesi kontrol ediliyor.
     function calculateWeight(balanceIndex) {
         var leftValue = 0;
         var rightValue = 0;
@@ -402,6 +406,7 @@ $(document).ready(function () {
         }
     }
 
+    //dışarıdaki şekiller hareket ettirilir.
     function moveShape() {
         $(".dragShape").draggable({
             containment: 'window',
@@ -427,6 +432,7 @@ $(document).ready(function () {
         });
     }
 
+    //hedef teraziye oturtulan şekiller hareket ettirilir.
     function moveSeatedShape() {
         $(".targetSeatedShape").draggable({
             containment: 'window',
@@ -448,7 +454,6 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareTriangle(1, game.triangleValue);
-                            // ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
@@ -462,7 +467,6 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareCircle(1, game.circleValue);
-                            // ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
@@ -476,7 +480,6 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareSquare(1, game.squareValue);
-                            // ui.draggable.remove();
                             extractShape = true;
                             calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
@@ -497,26 +500,26 @@ $(document).ready(function () {
 
                 checkInsideBox = checkInside(ui.helper, $(rightBoxes[game.balanceCount - 1]))
 
-                if(checkInsideBox) {
-                    return;
+                if (!checkInsideBox) {
+                    setToOriginalPosition(ui);
                 }
-
-                setToOriginalPosition(ui);
 
                 droppingInsideBox = false;
             },
         });
     }
 
+    //İki divin birbiri içerisinde olup olmadığı kontrol ediliyor.
     function checkInside(r1, r2) {
         return !(
-          r2.offset().left > r1.offset().left + r1.width() ||
-          r2.offset().left + r2.width() < r1.offset().left ||
-          r2.offset().top > r1.offset().top + r1.height() ||
-          r2.offset().top + r2.height() < r1.offset().top
+            r2.offset().left > r1.offset().left + r1.outerWidth() ||
+            r2.offset().left + r2.outerWidth() < r1.offset().left ||
+            r2.offset().top > r1.offset().top + r1.outerHeight() ||
+            r2.offset().top + r2.outerHeight() < r1.offset().top
         );
-      }
+    }
 
+    //kutunun dışına çıkarılan şekil orjinal pozisyonuna gidiyor.
     function setToOriginalPosition(shape) {
         var trianglePosition = $('.triangles').length > 0 ? $('.triangles')[0].getBoundingClientRect() : null;
         var squarePosition = $('.squares').length > 0 ? $('.squares')[0].getBoundingClientRect() : null;
@@ -592,6 +595,7 @@ $(document).ready(function () {
         }
     }
 
+    //oturan şekiller düzenleniyor.
     function completeShape(seatedShape, lastIndex) {
         var seatedShapeClass = ".blnTarget > .blnCol > .blnShape > .boxRight > .seatedShape";
 
@@ -607,7 +611,8 @@ $(document).ready(function () {
         moveShape();
     }
 
-    function setBalances(balanceHtml, index) {
+    //tek bir terazi oluşturuluyor.
+    function createBalance(balanceHtml, index) {
         if (index == game.balanceCount - 1) {
             balanceHtml = "<div class='col-md-5 blnCol'>";
         }
@@ -629,6 +634,7 @@ $(document).ready(function () {
         return balanceHtml;
     }
 
+    //Kutuların ve iplerin margin-top animasyonu
     function animateMargin(element, marginTopSize) {
         //açılır açılmaz şekiller animasyon ile aşağı-yukarı çıksın.
         if (gameTime < 2 || checkComplete) {
@@ -683,6 +689,7 @@ $(document).ready(function () {
         }
     }
 
+    //kutuların ve iplerin height animasyonları
     function animateHeight(element, heightSize) {
         if (gameTime < 2 || checkComplete) {
             setTimeout(function () {
@@ -710,6 +717,7 @@ $(document).ready(function () {
         }
     }
 
+    //bir sonraki oyuna geçildiğinde önceki oyun temizlensin.
     function clearGame() {
         balances = [];
         leftBoxes = [];
@@ -722,6 +730,7 @@ $(document).ready(function () {
         checkComplete = false;
     }
 
+    //bir sonraki oyuna geç.
     function nextGame() {
         if (checkComplete && games.length == 0) {
             alert("Oyun bitti tebrikler");
@@ -780,10 +789,18 @@ $(document).ready(function () {
 
         $('.blnTarget > .blnCol').addClass('mt-5');
 
-        // $('.boxRight').css({
-        //     'padding-top': '100%',
-        //     'padding-bottom': '2%',
-        // })
+        $(rightBoxes[game.balanceCount - 1]).css({
+            'padding-top': '100%',
+            'padding-bottom': '2%',
+        });
+
+        $('.boxLeft').css({
+            'padding-top': '40px',
+        });
+
+        $('.boxRight').not(rightBoxes[game.balanceCount - 1]).css({
+            'padding-top': '40px',
+        });
     }
 
     function seatedCircle(shapeCount, shapeX, shapeY, value, boxId) {
@@ -870,7 +887,8 @@ $(document).ready(function () {
         }
     }
 
-    function gameStartTime() {
+    //oyunun zaman değerini verir.
+    function startGameTime() {
         setInterval(function () {
             gameTime++;
         }, 1000);
