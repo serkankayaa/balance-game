@@ -12,7 +12,7 @@ var game1 = {
     circleValue: 2,
     squareValue: 5,
     leftBox: [
-        { triangleCount: 1, rectCount: 0, circleCount: 1 },
+        { triangleCount: 4, rectCount: 2, circleCount: 1 },
         { triangleCount: 0, rectCount: 0, circleCount: 1 },
         { triangleCount: 0, rectCount: 3, circleCount: 0 },
     ],

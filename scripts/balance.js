@@ -35,7 +35,7 @@ $(document).ready(function () {
     dropShape();
     startGameTime();
 
-    //kefelere otomatik şekil oturtur.
+    //hareket ettirilebilir şekiller oluşturuluyor.
     function setDraggableShapes() {
         var shapeHtml = "<div class='col-md-7 shapes'>";
 
