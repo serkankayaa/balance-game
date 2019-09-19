@@ -133,16 +133,15 @@ $(document).ready(function () {
         });
 
         for (let i = 0; i < game.balanceCount; i++) {
-
             var leftBoxShapeCount = game.leftBox[i].triangleCount + game.leftBox[i].circleCount + game.leftBox[i].rectCount;
             var rightBoxShapeCount = game.rightBox[i].triangleCount + game.rightBox[i].circleCount + game.rightBox[i].rectCount;
 
-            if(leftBoxShapeCount > 9) {
+            if (leftBoxShapeCount > 9) {
                 alert("çok fazla şekil dolduruldu");
                 return;
             }
 
-            if(rightBoxShapeCount > 9) {
+            if (rightBoxShapeCount > 9) {
                 alert("çok fazla şekil dolduruldu");
                 return;
             }
@@ -328,11 +327,11 @@ $(document).ready(function () {
         var checkLeftBigger = false;
         var checkRightBigger = false;
 
-        $(leftBoxes[balanceIndex]).children().each(function () {
+        $(leftBoxes[balanceIndex]).children('.seatedShape').each(function () {
             leftValue += parseInt($(this).attr('value'));
         });
 
-        $(rightBoxes[balanceIndex]).children().each(function () {
+        $(rightBoxes[balanceIndex]).children('.seatedShape').each(function () {
             rightValue += parseInt($(this).attr('value'));
         });
 
@@ -363,10 +362,16 @@ $(document).ready(function () {
         if (checkLeftBigger) {
             difference = 15;
             if (extractShape) {
-                getLeftLineHeight -= difference;
-                getLeftBoxHeight -= difference;
-                getRightBoxHeight += difference;
-                getRightLineHeight += difference;
+                if (getRightBoxHeight > getLeftLineHeight) {
+                    var newDifference = 55;
+                    getLeftLineHeight += newDifference;
+                    getLeftBoxHeight += newDifference;
+                    getRightBoxHeight -= newDifference;
+                    getRightLineHeight -= newDifference;
+                }
+                else {
+                    difference = 0;
+                }
             }
             else {
                 getLeftLineHeight -= difference;
@@ -389,32 +394,71 @@ $(document).ready(function () {
         }
 
         if (checkRightBigger) {
+            difference = 35;
             if (balanceIndex == game.balanceCount - 1) {
                 difference = Math.abs(difference);
             }
 
             if (extractShape) {
+                var insideDifference = leftValue - rightValue;
+
+                if (insideDifference > 0) {
+                    getLeftLineHeight += difference;
+                    getLeftBoxHeight += difference;
+                    getRightBoxHeight -= difference;
+                    getRightLineHeight -= difference;
+                }
+
                 getLeftLineHeight += difference;
                 getLeftBoxHeight += difference;
                 getRightBoxHeight -= difference;
                 getRightLineHeight -= difference;
+
+                animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
+                animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
+                animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight - difference);
+                animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight - difference);
+
+                animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
+                animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
+                animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight + difference);
+                animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight + difference);
             }
             else {
-                getLeftLineHeight -= difference;
-                getLeftBoxHeight -= difference;
-                getRightBoxHeight += difference;
-                getRightLineHeight += difference;
+                if (getRightBoxHeight > getLeftBoxHeight) {
+                    difference = 0;
+                }
+                else {
+                    getLeftLineHeight -= difference;
+                    getLeftBoxHeight -= difference;
+                    getRightBoxHeight += difference;
+                    getRightLineHeight += difference;
+
+                    animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
+                    animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
+                    animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight - difference);
+                    animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight - difference);
+
+                    animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
+                    animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
+                    animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight + difference);
+                    animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight + difference);
+                }
             }
 
-            animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
-            animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
-            animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight - difference);
-            animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight - difference);
+            if (getLeftBoxHeight < getRightBoxHeight) {
+                difference = -35;
+            }
 
-            animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
-            animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
-            animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight + difference);
-            animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight + difference);
+            // animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
+            // animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
+            // animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight - difference);
+            // animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight - difference);
+
+            // animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
+            // animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
+            // animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight + difference);
+            // animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight + difference);
 
             moveShape();
         }
@@ -470,9 +514,11 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareTriangle(1, game.triangleValue);
+                            ui.draggable.remove();
+                            setToOriginalPosition(ui);
                             extractShape = true;
-                            calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
+                            calculateWeight(game.balanceCount - 1);
                             droppingInsideBox = false;
                         }
 
@@ -483,9 +529,11 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareCircle(1, game.circleValue);
+                            ui.draggable.remove();
+                            setToOriginalPosition(ui);
                             extractShape = true;
-                            calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
+                            calculateWeight(game.balanceCount - 1);
                             droppingInsideBox = false;
                         }
 
@@ -496,9 +544,11 @@ $(document).ready(function () {
                         checkShapeCount++;
                         if (checkShapeCount == 1) {
                             prepareSquare(1, game.squareValue);
+                            ui.draggable.remove();
+                            setToOriginalPosition(ui);
                             extractShape = true;
-                            calculateWeight(game.balanceCount - 1);
                             seatedShapes.shift();
+                            calculateWeight(game.balanceCount - 1);
                             droppingInsideBox = false;
                         }
 
@@ -514,11 +564,11 @@ $(document).ready(function () {
                     'transform': 'scale(0.85)',
                 });
 
-                checkInsideBox = checkInside(ui.helper, $(rightBoxes[game.balanceCount - 1]))
+                // checkInsideBox = checkInside(ui.helper, $(rightBoxes[game.balanceCount - 1]))
 
-                if (!checkInsideBox) {
-                    setToOriginalPosition(ui);
-                }
+                // if (!checkInsideBox) {
+                //     setToOriginalPosition(ui);
+                // }
 
                 droppingInsideBox = false;
             },
@@ -537,78 +587,10 @@ $(document).ready(function () {
 
     //kutunun dışına çıkarılan şekil orjinal pozisyonuna gidiyor.
     function setToOriginalPosition(shape) {
-        var trianglePosition = $('.triangles').length > 0 ? $('.triangles')[0].getBoundingClientRect() : null;
-        var squarePosition = $('.squares').length > 0 ? $('.squares')[0].getBoundingClientRect() : null;
-        var circlePosition = $('.circles').length > 0 ? $('.circles')[0].getBoundingClientRect() : null;
-
-        if (shape.helper.attr('id') == 'triangleShape') {
-            shape.helper.css({ 'position': 'absolute' });
-            var triangleLeft = trianglePosition.left;
-            var currentPositionLeft = shape.offset.left;
-            var left = triangleLeft - currentPositionLeft + 12;
-
-            shape.helper.animate({
-                left: "+=" + left,
-                top: "0px"
-            }, {
-                duration: 1500,
-                complete: function () {
-                    //animation complete
-                    shape.helper.remove();
-                    var shapeId = "#" + shape.helper.attr('id');
-                    var seatedShape = $('.shapes').children().children(shapeId);
-
-                    seatedShape.hide();
-                    seatedShape.show('bounce');
-                },
-            });
-        }
-
-        if (shape.helper.attr('id') == 'squareShape') {
-            shape.helper.css({ 'position': 'absolute' });
-            var squareLeft = squarePosition.left;
-            var currentPositionLeft = shape.offset.left;
-            var left = squareLeft - currentPositionLeft + 12;
-
-            shape.helper.animate({
-                left: "+=" + left,
-                top: "0px",
-            }, {
-                duration: 1500,
-                complete: function () {
-                    //animation complete
-                    shape.helper.remove();
-                    var shapeId = "#" + shape.helper.attr('id');
-                    var seatedShape = $('.shapes').children().children(shapeId);
-
-                    seatedShape.hide();
-                    seatedShape.show('bounce');
-                },
-            });
-        }
-
-        if (shape.helper.attr('id') == 'circleShape') {
-            shape.helper.css({ 'position': 'absolute' });
-            var circleLeft = circlePosition.left;
-            var currentPositionLeft = shape.offset.left;
-            var left = circleLeft - currentPositionLeft + 12;
-
-            shape.helper.animate({
-                left: "+=" + left,
-                top: "0px",
-            }, {
-                duration: 1500,
-                complete: function () {
-                    //animation complete
-                    shape.helper.remove();
-                    var shapeId = "#" + shape.helper.attr('id');
-                    var seatedShape = $('.shapes').children().children(shapeId);
-
-                    seatedShape.hide();
-                    seatedShape.show('bounce');
-                },
-            });
-        }
+        var shapeId = "#" + shape.draggable.attr('id');
+        var seatedShape = $('.shapes').children().children(shapeId);
+        seatedShape.hide();
+        seatedShape.show('bounce', 'slow');
     }
 
     //oturan şekiller düzenleniyor.
@@ -695,11 +677,13 @@ $(document).ready(function () {
                     $(".shapes").css({ opacity: 1 });
 
                     $(".dragShape").draggable({ disabled: false });
+                    $(".targetSeatedShape").draggable({ disabled: false });
                     moveShape();
                 },
 
                 step: function (now, fx) {
                     $(".dragShape").draggable({ disabled: true });
+                    $(".targetSeatedShape").draggable({ disabled: true });
                 }
             });
         }
