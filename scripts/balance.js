@@ -564,12 +564,6 @@ $(document).ready(function () {
                     'transform': 'scale(0.85)',
                 });
 
-                // checkInsideBox = checkInside(ui.helper, $(rightBoxes[game.balanceCount - 1]))
-
-                // if (!checkInsideBox) {
-                //     setToOriginalPosition(ui);
-                // }
-
                 droppingInsideBox = false;
             },
         });
@@ -668,9 +662,11 @@ $(document).ready(function () {
                     readyShapeToDrag = true;
 
                     if (checkComplete) {
+                        $('.blnTarget').html('<div class="success"></div>');
+
                         setTimeout(function () {
                             nextGame();
-                        }, 1000);
+                        }, 1500);
                         return;
                     }
 

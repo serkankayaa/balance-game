@@ -178,3 +178,10 @@ body {
 .shapes>.squares>#squareShape {
     margin-left: 0px !important;
 }
+
+.success {
+    background: url('../img/success.gif');
+    height: 350px;
+    width: 350px;
+    background-repeat: no-repeat;
+}
