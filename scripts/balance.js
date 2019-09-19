@@ -427,6 +427,7 @@ $(document).ready(function () {
             stack: '.dragShape',
             revert: true,
             revertDuration: 900,
+            cursor: 'grab',
 
             start: function (event, ui) {
                 extractShape = false;
@@ -453,6 +454,7 @@ $(document).ready(function () {
             stack: '.targetSeatedShape',
             revert: 'valid',
             revertDuration: 600,
+            cursor: 'grab',
 
             start: function () {
                 $(this).removeClass('seatedShape');
