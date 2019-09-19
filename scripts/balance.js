@@ -662,11 +662,12 @@ $(document).ready(function () {
                     readyShapeToDrag = true;
 
                     if (checkComplete) {
-                        $('.blnTarget').html('<div class="success"></div>');
+                        $('.bln').hide('fold');
+                        $('.blnTarget').html('<div class="col success"></div>');
 
                         setTimeout(function () {
                             nextGame();
-                        }, 1500);
+                        }, 2000);
                         return;
                     }
 
