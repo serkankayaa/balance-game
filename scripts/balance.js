@@ -133,6 +133,20 @@ $(document).ready(function () {
         });
 
         for (let i = 0; i < game.balanceCount; i++) {
+
+            var leftBoxShapeCount = game.leftBox[i].triangleCount + game.leftBox[i].circleCount + game.leftBox[i].rectCount;
+            var rightBoxShapeCount = game.rightBox[i].triangleCount + game.rightBox[i].circleCount + game.rightBox[i].rectCount;
+
+            if(leftBoxShapeCount > 9) {
+                alert("çok fazla şekil dolduruldu");
+                return;
+            }
+
+            if(rightBoxShapeCount > 9) {
+                alert("çok fazla şekil dolduruldu");
+                return;
+            }
+
             //seated left boxes
             seatedTriangle(game.leftBox[i].triangleCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.triangleValue, $(leftBoxes[i]));
             seatedSquare(game.leftBox[i].rectCount, $(leftBoxes[i]).position().left, $(leftBoxes[i]).position().top, game.squareValue, $(leftBoxes[i]));
