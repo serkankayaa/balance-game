@@ -26,6 +26,14 @@ $(document).ready(function () {
     var gameTime = 0;
     var defaultHeight = gameObject.defaultHeight;
 
+    var checkBrowser = checkIE();
+
+    if (checkBrowser) {
+        alert("Bu tarayıcıda oynayamazsınız. Lütfen tarayıcınızı değiştirip tekrar deneyin.");
+        $('body').html("");
+        return;
+    }
+
     //ilk oyunun yüklenmesi
     var game = game1;
     checkGameInitialize = true;
@@ -35,14 +43,6 @@ $(document).ready(function () {
     moveShape();
     dropShape();
     startGameTime();
-
-    var checkBrowser = checkIE();
-
-    if(checkBrowser) {
-        alert("Bu tarayıcıda oynayamazsınız. Lütfen tarayıcınızı değiştirip tekrar deneyin.");
-        $('body').html("");
-        return;
-    }
 
     //hareket ettirilebilir şekiller oluşturuluyor.
     function setDraggableShapes() {
