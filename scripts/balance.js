@@ -36,7 +36,13 @@ $(document).ready(function () {
     dropShape();
     startGameTime();
 
-    console.log(checkIE());
+    var checkBrowser = checkIE();
+
+    if(checkBrowser) {
+        alert("Bu tarayıcıda oynayamazsınız. Lütfen tarayıcınızı değiştirip tekrar deneyin.");
+        $('body').html("");
+        return;
+    }
 
     //hareket ettirilebilir şekiller oluşturuluyor.
     function setDraggableShapes() {
