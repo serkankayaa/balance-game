@@ -7,7 +7,7 @@ var gameObject = {
 var game1 = {
     name: 'game1',
     balanceCount: 3,
-    dragShapes: [ 'triangle', 'circle', 'square' ],
+    dragShapes: ['triangle', 'circle'],
     triangleValue: 3,
     circleValue: 2,
     squareValue: 5,
@@ -26,7 +26,7 @@ var game1 = {
 var game2 = {
     name: 'game2',
     balanceCount: 3,
-    dragShapes: [ 'circle', 'square'],
+    dragShapes: ['circle', 'square'],
     triangleValue: 3,
     circleValue: 2,
     squareValue: 5,
@@ -45,7 +45,7 @@ var game2 = {
 var game3 = {
     name: 'game3',
     balanceCount: 3,
-    dragShapes: [ 'circle', 'square'],
+    dragShapes: ['circle', 'square'],
     triangleValue: 3,
     circleValue: 2,
     squareValue: 5,

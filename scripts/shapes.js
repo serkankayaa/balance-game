@@ -58,7 +58,7 @@ function prepareCircle(shapeCount, value) {
     var shapeId = "circleShape";
 
     for (let i = 0; i < shapeCount; i++) {
-        shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
+        shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left: 3px; position:absolute;"></div>`;
         $(".circles").append(shapeHtml);
     }
 }
@@ -68,7 +68,7 @@ function prepareSquare(shapeCount, value) {
     var shapeId = "squareShape";
 
     for (let i = 0; i < shapeCount; i++) {
-        shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
+        shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left: 3px; position:absolute"></div>`;
         $(".squares").append(shapeHtml);
     }
 }
@@ -78,7 +78,7 @@ function prepareTriangle(shapeCount, value) {
     var shapeId = "triangleShape";
 
     for (let i = 0; i < shapeCount; i++) {
-        shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
+        shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left: 3px; position:absolute"></div>`;
         $(".triangles").append(shapeHtml);
     }
 }

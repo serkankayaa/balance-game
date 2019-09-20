@@ -145,8 +145,8 @@ body {
 
 .shapes {
     background-image: url(../img/shapeDesk.png);
-    width: 125px;
-    height: 113px;
+    width: 144px;
+    height: 128px;
     background-repeat: no-repeat;
     margin-top: 51% !important;
     margin-right: 50px !important;
@@ -168,15 +168,15 @@ body {
 }
 
 .shapes>.circles>#circleShape {
-    margin-left: 1px !important;
+    margin-left: 0px !important;
 }
 
 .shapes>.triangles>#triangleShape {
-    margin-left: 1px !important;
+    margin-left: 0px !important;
 }
 
 .shapes>.squares>#squareShape {
-    margin-left: 1px !important;
+    margin-left: 0px !important;
 }
 
 .success {
