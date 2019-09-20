@@ -616,12 +616,19 @@ $(document).ready(function () {
     //Kutuların ve iplerin margin-top animasyonu
     function animateMargin(element, marginTopSize) {
         //açılır açılmaz şekiller animasyon ile aşağı-yukarı çıksın.
+        var balanceSpeed = gameObject.initialBalanceSpeed;
+        var currentBalanceId = element.parent().attr('id');
+
+        if(balances[game.balanceCount - 1] == currentBalanceId) {
+            balanceSpeed = gameObject.balanceSpeed;
+        }
+
         if (checkGameInitialize) {
             setTimeout(function () {
                 $(element).animate({
                     marginTop: marginTopSize,
                 }, {
-                    duration: gameObject.balanceSpeed,
+                    duration: balanceSpeed,
                     complete: function () {
                         //animation complete
                         readyShapeToDrag = true;
@@ -644,7 +651,7 @@ $(document).ready(function () {
             $(element).animate({
                 marginTop: marginTopSize,
             }, {
-                duration: gameObject.balanceSpeed,
+                duration: balanceSpeed,
                 complete: function () {
                     //animation complete
                     readyShapeToDrag = true;
@@ -676,12 +683,19 @@ $(document).ready(function () {
 
     //kutuların ve iplerin height animasyonları
     function animateHeight(element, heightSize) {
+        var balanceSpeed = gameObject.initialBalanceSpeed;
+        var currentBalanceId = element.parent().attr('id');
+
+        if(balances[game.balanceCount - 1] == currentBalanceId) {
+            balanceSpeed = gameObject.balanceSpeed;
+        }
+
         if (checkGameInitialize) {
             setTimeout(function () {
                 $(element).animate({
                     height: heightSize,
                 }, {
-                    duration: gameObject.balanceSpeed,
+                    duration: balanceSpeed,
                     complete: function () {
                         //animation complete
                         checkGameInitialize = false;
@@ -694,7 +708,7 @@ $(document).ready(function () {
             $(element).animate({
                 height: heightSize,
             }, {
-                duration: gameObject.balanceSpeed,
+                duration: balanceSpeed,
                 complete: function () {
                     //animation complete
                     checkGameInitialize = false;

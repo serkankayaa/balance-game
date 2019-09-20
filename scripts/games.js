@@ -1,6 +1,7 @@
 var gameObject = {
     maxShapeCount: 5,
-    balanceSpeed: 700,
+    initialBalanceSpeed: 700,
+    balanceSpeed: 400,
     defaultHeight: 35
 }
 
