@@ -28,6 +28,7 @@ $(document).ready(function () {
 
     //ilk oyunun yüklenmesi
     var game = game1;
+    checkGameInitialize = true;
     prepareBalances(game);
     setDraggableShapes();
     addStyles();
@@ -615,7 +616,7 @@ $(document).ready(function () {
     //Kutuların ve iplerin margin-top animasyonu
     function animateMargin(element, marginTopSize) {
         //açılır açılmaz şekiller animasyon ile aşağı-yukarı çıksın.
-        if (gameTime < 2 || checkComplete) {
+        if (checkGameInitialize) {
             setTimeout(function () {
                 $(element).animate({
                     marginTop: marginTopSize,
@@ -624,6 +625,7 @@ $(document).ready(function () {
                     complete: function () {
                         //animation complete
                         readyShapeToDrag = true;
+                        checkGameInitialize = false;
 
                         if (checkComplete) {
                             setTimeout(function () {
@@ -646,6 +648,7 @@ $(document).ready(function () {
                 complete: function () {
                     //animation complete
                     readyShapeToDrag = true;
+                    checkGameInitialize = false;
 
                     if (checkComplete) {
                         $('.bln').html('<div class="col-md-3"></div><div class="col-md-3 success"></div><div class="col-md-3"></div>');
@@ -673,7 +676,7 @@ $(document).ready(function () {
 
     //kutuların ve iplerin height animasyonları
     function animateHeight(element, heightSize) {
-        if (gameTime < 2 || checkComplete) {
+        if (checkGameInitialize) {
             setTimeout(function () {
                 $(element).animate({
                     height: heightSize,
@@ -681,6 +684,7 @@ $(document).ready(function () {
                     duration: gameObject.balanceSpeed,
                     complete: function () {
                         //animation complete
+                        checkGameInitialize = false;
                         moveShape();
                     },
                 });
@@ -693,6 +697,7 @@ $(document).ready(function () {
                 duration: gameObject.balanceSpeed,
                 complete: function () {
                     //animation complete
+                    checkGameInitialize = false;
                     moveShape();
                 },
             });
@@ -725,6 +730,7 @@ $(document).ready(function () {
             if (checkComplete) {
                 calculateUserAnswer(game.name);
                 game = games[i];
+                checkGameInitialize = true;
                 clearGame();
                 prepareBalances(game);
                 addStyles();
