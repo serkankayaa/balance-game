@@ -7,8 +7,6 @@ $(document).ready(function () {
     //kullanıcının cevapları
     var userAnswers = [];
 
-    console.log(/Edge/.test(navigator.userAgent));
-
     //balance elements
     var balances = [];
     var leftBoxes = [];
@@ -40,7 +38,12 @@ $(document).ready(function () {
 
     //hareket ettirilebilir şekiller oluşturuluyor.
     function setDraggableShapes() {
-        var shapeHtml = "<div class='col-md-7 shapes'>";
+        if (/Edge/.test(navigator.userAgent)) {
+            var shapeHtml = "<div class='col-md-9 shapes'>";
+        }
+        else {
+            shapeHtml = "<div class='col-md-7 shapes'>";
+        }
 
         $(".blnTarget").append(shapeHtml);
 
@@ -595,7 +598,12 @@ $(document).ready(function () {
     //tek bir terazi oluşturuluyor.
     function createBalance(balanceHtml, index) {
         if (index == game.balanceCount - 1) {
-            balanceHtml = "<div class='col-md-5 blnCol'>";
+            if (/Edge/.test(navigator.userAgent)) {
+                balanceHtml = "<div class='col-md-3 blnCol'>";
+            }
+            else {
+                balanceHtml = "<div class='col-md-5 blnCol'>";
+            }
         }
         else {
             balanceHtml = "<div class='col blnCol'>";
