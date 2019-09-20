@@ -196,19 +196,6 @@ $(document).ready(function () {
                 getRightLineHeight += defaultHeight;
             }
 
-            // if (i == game.balanceCount - 1) {
-            //     getLeftLineHeight += difference * 2.5;
-            //     getLeftBoxHeight += difference * 2.5;
-            //     getRightBoxHeight -= difference * 2.5;
-            //     getRightLineHeight -= difference * 2.5;
-            // }
-            // else {
-            //     getLeftLineHeight += difference * 4;
-            //     getLeftBoxHeight += difference * 4;
-            //     getRightBoxHeight -= difference * 4;
-            //     getRightLineHeight -= difference * 4;
-            // }
-
             animateMargin($(leftBoxes[i]), getLeftBoxHeight);
             animateHeight($(ropeLeftLines[i]), getLeftLineHeight);
 
@@ -450,16 +437,6 @@ $(document).ready(function () {
                 difference = -35;
             }
 
-            // animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight);
-            // animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight);
-            // animateMargin($(leftBoxes[balanceIndex]), getLeftBoxHeight - difference);
-            // animateHeight($(ropeLeftLines[balanceIndex]), getLeftLineHeight - difference);
-
-            // animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight);
-            // animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight);
-            // animateMargin($(rightBoxes[balanceIndex]), getRightBoxHeight + difference);
-            // animateHeight($(ropeRightLines[balanceIndex]), getRightLineHeight + difference);
-
             moveShape();
         }
     }
@@ -662,7 +639,7 @@ $(document).ready(function () {
                     readyShapeToDrag = true;
 
                     if (checkComplete) {
-                        $('.bln').hide('fold');
+                        $('.bln').hide('fold', 'slow');
                         $('.blnTarget').html('<div class="col success"></div>');
 
                         setTimeout(function () {
@@ -798,90 +775,6 @@ $(document).ready(function () {
         $('.boxRight').not(rightBoxes[game.balanceCount - 1]).css({
             'padding-top': '40px',
         });
-    }
-
-    function seatedCircle(shapeCount, shapeX, shapeY, value, boxId) {
-        if (shapeCount != 0) {
-            var shapeHtml = "";
-            var shapeId = "circleShape";
-
-            for (let i = 0; i < shapeCount; i++) {
-                shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
-
-                $(boxId).append(shapeHtml);
-
-                $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-                $("#" + shapeId).css({
-                    'position': 'static',
-                });
-            }
-        }
-    }
-
-    function seatedSquare(shapeCount, shapeX, shapeY, value, boxId) {
-        if (shapeCount != 0) {
-            var shapeHtml = "";
-            var shapeId = "squareShape";
-
-            for (let i = 0; i < shapeCount; i++) {
-                shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
-
-                $(boxId).append(shapeHtml);
-
-                $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-                $("#" + shapeId).css({
-                    'position': 'static',
-                });
-            }
-        }
-    }
-
-    function seatedTriangle(shapeCount, shapeX, shapeY, value, boxId) {
-        if (shapeCount != 0) {
-            var shapeHtml = "";
-            var shapeId = "triangleShape";
-
-            for (let i = 0; i < shapeCount; i++) {
-                shapeHtml = "<div id='" + shapeId + "' value='" + value + "' class='seatedShape'></div>";
-
-                $(boxId).append(shapeHtml);
-
-                $("#" + shapeId).offset({ top: shapeY, left: shapeX });
-                $("#" + shapeId).css({
-                    'position': 'static',
-                });
-            }
-        }
-    }
-
-    function prepareCircle(shapeCount, value) {
-        var shapeHtml = "";
-        var shapeId = "circleShape"
-
-        for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
-            $(".circles").append(shapeHtml);
-        }
-    }
-
-    function prepareSquare(shapeCount, value) {
-        var shapeHtml = "";
-        var shapeId = "squareShape"
-
-        for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
-            $(".squares").append(shapeHtml);
-        }
-    }
-
-    function prepareTriangle(shapeCount, value) {
-        var shapeHtml = "";
-        var shapeId = "triangleShape"
-
-        for (let i = 0; i < shapeCount; i++) {
-            shapeHtml = `<div id=${shapeId} value=${value} class="dragShape" style="margin-left:3px; position:absolute"></div>`;
-            $(".triangles").append(shapeHtml);
-        }
     }
 
     //oyunun zaman değerini verir.

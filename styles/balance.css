@@ -168,15 +168,15 @@ body {
 }
 
 .shapes>.circles>#circleShape {
-    margin-left: 0px !important;
+    margin-left: 1px !important;
 }
 
 .shapes>.triangles>#triangleShape {
-    margin-left: 0px !important;
+    margin-left: 1px !important;
 }
 
 .shapes>.squares>#squareShape {
-    margin-left: 0px !important;
+    margin-left: 1px !important;
 }
 
 .success {
