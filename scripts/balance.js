@@ -21,7 +21,6 @@ $(document).ready(function () {
     var checkComplete = false;
     var extractShape = false;
     var droppingInsideBox = false;
-    var checkInsideBox = false;
     var checkShapeCount = 0;
     var gameTime = 0;
     var defaultHeight = gameObject.defaultHeight;
