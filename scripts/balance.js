@@ -7,6 +7,8 @@ $(document).ready(function () {
     //kullanıcının cevapları
     var userAnswers = [];
 
+    console.log(/Edge/.test(navigator.userAgent));
+
     //balance elements
     var balances = [];
     var leftBoxes = [];
@@ -619,7 +621,7 @@ $(document).ready(function () {
         var balanceSpeed = gameObject.initialBalanceSpeed;
         var currentBalanceId = element.parent().attr('id');
 
-        if(balances[game.balanceCount - 1] == currentBalanceId) {
+        if (balances[game.balanceCount - 1] == currentBalanceId) {
             balanceSpeed = gameObject.balanceSpeed;
         }
 
@@ -686,7 +688,7 @@ $(document).ready(function () {
         var balanceSpeed = gameObject.initialBalanceSpeed;
         var currentBalanceId = element.parent().attr('id');
 
-        if(balances[game.balanceCount - 1] == currentBalanceId) {
+        if (balances[game.balanceCount - 1] == currentBalanceId) {
             balanceSpeed = gameObject.balanceSpeed;
         }
 
