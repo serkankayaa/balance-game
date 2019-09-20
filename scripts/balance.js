@@ -337,11 +337,20 @@ $(document).ready(function () {
             checkRightBigger = true;
         }
         else if (difference == 0) {
-            animateMargin($(rightBoxes[balanceIndex]), getLeftBoxHeight - getLeftBoxHeight + getRightBoxHeight);
-            animateHeight($(ropeRightLines[balanceIndex]), getLeftLineHeight - getLeftLineHeight + getRightLineHeight);
+            if (getRightBoxHeight < getLeftBoxHeight) {
+                animateMargin($(rightBoxes[balanceIndex]), getLeftBoxHeight - getLeftBoxHeight + getRightBoxHeight + 19);
+                animateHeight($(ropeRightLines[balanceIndex]), getLeftLineHeight - getLeftLineHeight + getRightLineHeight + 19);
 
-            animateMargin($(leftBoxes[balanceIndex]), getRightBoxHeight);
-            animateHeight($(ropeLeftLines[balanceIndex]), getRightLineHeight);
+                animateMargin($(leftBoxes[balanceIndex]), getRightBoxHeight + 19);
+                animateHeight($(ropeLeftLines[balanceIndex]), getRightLineHeight + 19);
+            }
+            else {
+                animateMargin($(rightBoxes[balanceIndex]), getLeftBoxHeight - getLeftBoxHeight + getRightBoxHeight - 19);
+                animateHeight($(ropeRightLines[balanceIndex]), getLeftLineHeight - getLeftLineHeight + getRightLineHeight - 19);
+
+                animateMargin($(leftBoxes[balanceIndex]), getRightBoxHeight - 19);
+                animateHeight($(ropeLeftLines[balanceIndex]), getRightLineHeight - 19);
+            }
 
             checkComplete = true;
         }
@@ -639,8 +648,7 @@ $(document).ready(function () {
                     readyShapeToDrag = true;
 
                     if (checkComplete) {
-                        $('.bln').hide('fold', 'slow');
-                        $('.blnTarget').html('<div class="col success"></div>');
+                        $('.bln').html('<div class="col-md-3"></div><div class="col-md-3 success"></div><div class="col-md-3"></div>');
 
                         setTimeout(function () {
                             nextGame();
