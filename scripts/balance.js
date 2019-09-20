@@ -36,6 +36,8 @@ $(document).ready(function () {
     dropShape();
     startGameTime();
 
+    console.log(checkIE());
+
     //hareket ettirilebilir şekiller oluşturuluyor.
     function setDraggableShapes() {
         if (/Edge/.test(navigator.userAgent)) {
@@ -820,5 +822,19 @@ $(document).ready(function () {
         setInterval(function () {
             gameTime++;
         }, 1000);
+    }
+
+    function checkIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0) // If Internet Explorer, return version number
+        {
+            return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
+        }
+        else  // If another browser, return 0
+        {
+            return 0;
+        }
     }
 });
